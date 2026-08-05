@@ -132,7 +132,7 @@ export const profileInputSchema = z.object({
   showInstitutions: z.boolean(),
   allowIndexing: z.boolean(),
   onboardingCompleted: z.boolean().optional(),
-}).strict();
+}).strip();
 
 const goalBaseFields = {
   title: z.string().trim().min(2).max(100),
