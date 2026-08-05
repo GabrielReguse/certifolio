@@ -19,7 +19,7 @@
     "APP_URL": "https://certifolio.gabrielreguse1.workers.dev",
     "BETTER_AUTH_URL": "https://certifolio.gabrielreguse1.workers.dev",
     "REQUIRE_EMAIL_VERIFICATION": "true",
-    "ENABLE_SETUP": "true",
+    "ENABLE_SETUP": "false",
     "EMAIL_FROM": "Certifólio <contato@SEU-DOMINIO.com>"
   },
   "triggers": {
