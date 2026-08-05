@@ -1,0 +1,31 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "certifolio",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-08-05",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "not_found_handling": "single-page-application"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "certifolio-db",
+      "database_id": "90ccf92d-b7b4-4cd6-91cf-81c71263b158",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "APP_URL": "https://certifolio.gabrielreguse1.workers.dev",
+    "BETTER_AUTH_URL": "https://certifolio.gabrielreguse1.workers.dev",
+    "REQUIRE_EMAIL_VERIFICATION": "true",
+    "ENABLE_SETUP": "false",
+    "EMAIL_FROM": "Certifólio <contato@SEU-DOMINIO.com>"
+  },
+  "triggers": {
+    "crons": ["*/30 * * * *"]
+  },
+  "observability": {
+    "enabled": true
+  }
+}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Certifólio">
+  <path d="M9 16.5C17.7 17.4 25.6 21.1 30.6 27.8V48.2C25.2 42.8 18.1 40.4 9 40.2V16.5Z" fill="currentColor"/>
+  <path d="M55 16.5C46.3 17.4 38.4 21.1 33.4 27.8V48.2C38.8 42.8 45.9 40.4 55 40.2V16.5Z" fill="currentColor" opacity="0.5"/>
+  <path d="M5.5 22.5H8V43.7C17.1 40.9 25.2 43.5 30.8 50.8C23.7 45.1 15 44.2 5.5 47.3V22.5Z" fill="currentColor"/>
+  <path d="M58.5 22.5H56V43.7C46.9 40.9 38.8 43.5 33.2 50.8C40.3 45.1 49 44.2 58.5 47.3V22.5Z" fill="currentColor"/>
+</svg>

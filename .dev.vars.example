@@ -1,0 +1,26 @@
+APP_URL=http://localhost:5173
+BETTER_AUTH_URL=http://localhost:5173
+REQUIRE_EMAIL_VERIFICATION=false
+ENABLE_SETUP=false
+
+# Gere os dois primeiros com: npm run secrets:generate
+BETTER_AUTH_SECRET=troque-por-um-segredo-com-pelo-menos-32-caracteres
+AUDIT_HASH_SECRET=troque-por-outro-segredo-grande-e-aleatorio
+
+# Use apenas durante a primeira migração interna do Better Auth.
+# Depois, remova o valor e mantenha ENABLE_SETUP=false no wrangler.jsonc.
+SETUP_KEY=
+
+# Cloudinary — Console > Settings > API Keys
+CLOUDINARY_CLOUD_NAME=seu-cloud-name
+CLOUDINARY_API_KEY=sua-api-key
+CLOUDINARY_API_SECRET=seu-api-secret
+
+# Recomendado em produção
+RESEND_API_KEY=
+
+# Opcionais
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+TURNSTILE_SECRET_KEY=
+TURNSTILE_SITE_KEY=

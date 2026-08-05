@@ -1,0 +1,50 @@
+{
+  "name": "certifolio-fullstack",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "deploy": "npm run config:check:production && npm run build && wrangler deploy",
+    "typecheck": "tsc -b",
+    "check": "npm run typecheck && vite build",
+    "config:check": "node scripts/check-config.mjs",
+    "config:check:production": "node scripts/check-config.mjs --production",
+    "cloudinary:check": "node scripts/check-cloudinary.mjs",
+    "secrets:generate": "node scripts/generate-secrets.mjs",
+    "cf:login": "wrangler login",
+    "cf:types": "wrangler types",
+    "db:create": "wrangler d1 create certifolio-db",
+    "db:migrate:local": "wrangler d1 migrations apply certifolio-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply certifolio-db --remote",
+    "db:studio": "drizzle-kit studio",
+    "clean": "node -e \"const fs=require('fs'); for (const p of ['dist','.wrangler','coverage']) fs.rmSync(p,{recursive:true,force:true})\"",
+    "security:check": "npm audit --audit-level=high",
+    "prepare:repo": "npm run clean && npm run check",
+    "auth:migrate": "node scripts/run-auth-migration.mjs"
+  },
+  "dependencies": {
+    "better-auth": "^1.6.26",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.12.32",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.47.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.0.4",
+    "drizzle-kit": "^0.31.10",
+    "typescript": "^5.8.3",
+    "vite": "^8.1.5",
+    "wrangler": "^4.118.0",
+    "@types/node": "^24.3.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

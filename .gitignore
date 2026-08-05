@@ -1,0 +1,33 @@
+# Dependências e artefatos
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Estado local do Cloudflare
+.wrangler/
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+
+# Ambientes e credenciais
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Arquivos locais
+*.local
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Bancos e temporários
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+.tmp/
+tmp/

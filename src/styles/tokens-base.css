@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+
+:root {
+  color-scheme: light;
+  --accent-raw: #2f7652;
+  --accent: #2f7652;
+  --accent-rgb: 47, 118, 82;
+  --accent-contrast: #ffffff;
+  --accent-contrast-rgb: 255, 255, 255;
+  --accent-overlay: rgba(9,9,12,.72);
+  --accent-overlay-strong: rgba(9,9,12,.82);
+  --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+  --accent-muted: color-mix(in srgb, var(--accent) 20%, var(--surface));
+  --accent-strong: color-mix(in srgb, var(--accent) 82%, #09090b);
+  --bg: #f4f6f2;
+  --bg-elevated: #f9faf7;
+  --surface: #ffffff;
+  --surface-2: #eef1eb;
+  --surface-3: #e6ebe4;
+  --text: #1b211d;
+  --text-soft: #606a63;
+  --text-faint: #8a938c;
+  --line: #dfe4de;
+  --line-strong: #cbd3cc;
+  --danger: #b23e4a;
+  --warning: #a56a16;
+  --success: #26734d;
+  --shadow-sm: 0 8px 24px rgba(28, 41, 32, .07);
+  --shadow-md: 0 18px 50px rgba(28, 41, 32, .11);
+  --shadow-lg: 0 36px 90px rgba(18, 29, 22, .18);
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --radius-xl: 34px;
+  --sidebar: 272px;
+  --content-max: 1480px;
+  --transition: 180ms cubic-bezier(.2,.8,.2,1);
+  font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #09090b;
+  --bg-elevated: #0f0f12;
+  --surface: #151519;
+  --surface-2: #1c1c21;
+  --surface-3: #25252b;
+  --text: #f4f4f6;
+  --text-soft: #b1b1b9;
+  --text-faint: #7f7f89;
+  --line: #2a2a31;
+  --line-strong: #3b3b45;
+  --danger: #ff7782;
+  --warning: #e9b45e;
+  --success: #71d49f;
+  --shadow-sm: 0 8px 24px rgba(0, 0, 0, .16);
+  --shadow-md: 0 18px 50px rgba(0, 0, 0, .24);
+  --shadow-lg: 0 36px 90px rgba(0, 0, 0, .40);
+}
+
+/* Dark mode uses neutral blacks and grays. Accent colors remain only in highlights. */
+:root[data-theme='dark'] body,
+:root[data-theme='dark'] .app-shell,
+:root[data-theme='dark'] .app-main {
+  background-color: var(--bg);
+}
+:root[data-theme='dark'] .app-main {
+  background-image: linear-gradient(180deg, #0d0d10 0, var(--bg) 360px);
+}
+:root[data-theme='dark'] .sidebar {
+  background: #111114;
+}
+:root[data-theme='dark'] .topbar {
+  background: #0d0d10;
+}
+:root[data-theme='dark'] .panel,
+:root[data-theme='dark'] .course-card,
+:root[data-theme='dark'] .folder-card,
+:root[data-theme='dark'] .stats-grid > article {
+  background-color: var(--surface);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: auto; background: var(--bg); }
+body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--bg); color: var(--text); }
+body, button, input, textarea, select { font: inherit; }
+button, input, textarea, select { color: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .58; }
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+svg { flex: 0 0 auto; }
+::selection { background: var(--accent); color: #fff; }
+:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 35%, transparent); outline-offset: 2px; }
+
+h1, h2, h3, h4, p { margin-top: 0; }
+h1, h2, h3, h4 { font-family: 'Manrope', sans-serif; letter-spacing: -.035em; }
+h1 { font-size: clamp(2rem, 3.7vw, 3.8rem); line-height: 1.02; }
+h2 { font-size: clamp(1.35rem, 2vw, 2rem); line-height: 1.15; }
+h3 { font-size: 1.05rem; }
+p { line-height: 1.65; color: var(--text-soft); }
+

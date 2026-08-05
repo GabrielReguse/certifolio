@@ -1,0 +1,238 @@
+/* Institution cards: unified surface with no detached folder tab */
+.folder-grid {
+  grid-template-columns: repeat(auto-fill, minmax(290px, 340px));
+  gap: 18px;
+  padding-top: 4px;
+}
+.folder-card {
+  min-height: 244px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--line));
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 92% 8%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 38%),
+    var(--surface);
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--text) 7%, transparent);
+  transform: none;
+}
+.folder-card::before,
+.folder-card::after,
+.folder-card__tab { display: none !important; content: none !important; }
+.folder-card > * { position: relative; z-index: 1; }
+.folder-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 25px;
+}
+.folder-card__icon {
+  width: 48px;
+  height: 48px;
+  margin: 0;
+  border: 1px solid color-mix(in srgb, var(--accent) 14%, var(--line));
+  border-radius: 16px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, var(--surface));
+}
+.folder-card__status {
+  padding: 6px 9px;
+  border: 1px solid color-mix(in srgb, var(--accent) 14%, var(--line));
+  border-radius: 999px;
+  color: color-mix(in srgb, var(--accent) 72%, var(--text-soft));
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+.folder-card__content { display: grid; gap: 6px; }
+.folder-card__content h3 { margin: 0; font-size: 1.08rem; line-height: 1.3; }
+.folder-card__content p { margin: 0; color: var(--text-soft); font-size: .78rem; }
+.folder-card__footer-new {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid color-mix(in srgb, var(--accent) 8%, var(--line));
+}
+.folder-card__footer-new > span {
+  max-width: 145px;
+  color: var(--text-faint);
+  font-size: .67rem;
+  line-height: 1.4;
+}
+.folder-card__footer-new > strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--accent);
+  font-size: .72rem;
+  white-space: nowrap;
+}
+.folder-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent) 34%, var(--line));
+  background:
+    radial-gradient(circle at 92% 8%, color-mix(in srgb, var(--accent) 11%, transparent), transparent 42%),
+    color-mix(in srgb, var(--surface) 97%, var(--accent) 3%);
+  box-shadow: 0 18px 38px color-mix(in srgb, var(--text) 10%, transparent);
+}
+.folder-card:hover .folder-card__icon { transform: translateY(-2px); }
+.folder-card:hover .folder-card__footer-new > strong svg { transform: translateX(2px); }
+.folder-card__footer-new > strong svg { transition: transform var(--transition-fast); }
+
+@media (max-width: 620px) {
+  .folder-grid { grid-template-columns: 1fr; }
+  .folder-card { min-height: 226px; }
+}
+
+
+/* Adaptive accent palette --------------------------------------------------
+   The selected color is preserved as the source, while interactive colors,
+   foregrounds and hero text receive automatically calculated contrast values.
+*/
+::selection { background: var(--accent); color: var(--accent-contrast); }
+.brand__mark {
+  color: inherit;
+  border: 0;
+}
+.button--primary,
+.sidebar__nav button.active,
+.avatar,
+.welcome-empty__steps b,
+.stepper button.active,
+.stepper button.done,
+.visual-choice-grid i,
+.profile-media-avatar {
+  color: var(--accent-contrast);
+}
+.button--primary { border: 1px solid color-mix(in srgb, var(--accent-contrast) 18%, transparent); }
+.topbar .button--primary::after {
+  background: color-mix(in srgb, var(--accent-contrast) 24%, transparent);
+}
+
+/* Large accent surfaces use their calculated foreground instead of assuming white. */
+.dashboard-hero,
+.auth-visual { color: var(--accent-contrast); }
+.dashboard-hero {
+  background:
+    radial-gradient(circle at 83% 16%, color-mix(in srgb, var(--accent-contrast) 18%, transparent), transparent 26%),
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 94%, #17171a), color-mix(in srgb, var(--accent) 55%, #09090b));
+}
+.dashboard-hero p,
+.auth-visual__copy p,
+.auth-visual .brand small {
+  color: color-mix(in srgb, var(--accent-contrast) 70%, transparent);
+}
+.dashboard-hero::after,
+.auth-visual::after {
+  border-color: color-mix(in srgb, var(--accent-contrast) 11%, transparent);
+}
+.dashboard-hero::after {
+  box-shadow: 0 0 0 45px color-mix(in srgb, var(--accent-contrast) 3%, transparent);
+}
+.auth-visual::after {
+  box-shadow:
+    0 0 0 70px color-mix(in srgb, var(--accent-contrast) 3%, transparent),
+    0 0 0 150px color-mix(in srgb, var(--accent-contrast) 2%, transparent);
+}
+.dashboard-hero .eyebrow--light { color: color-mix(in srgb, var(--accent-contrast) 78%, transparent); }
+.dashboard-hero .button--light {
+  background: var(--accent-contrast);
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.goal-ring {
+  background: conic-gradient(
+    from 0deg,
+    var(--accent-contrast) 0 var(--progress),
+    color-mix(in srgb, var(--accent-contrast) 14%, transparent) var(--progress) 360deg
+  );
+}
+.goal-ring::before {
+  background: color-mix(in srgb, var(--accent) 78%, var(--bg));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-contrast) 6%, transparent);
+}
+.goal-ring span { color: color-mix(in srgb, var(--accent-contrast) 66%, transparent); }
+.goal-ring small { color: color-mix(in srgb, var(--accent-contrast) 84%, transparent); }
+
+/* Keep accent text readable on both neutral themes. */
+.text-link,
+.eyebrow,
+.course-symbol,
+.privacy-chip--public,
+.folder-card__icon,
+.folder-card__open,
+.topbar__mark,
+.topbar__kicker i,
+.preview-open,
+.visual-choice-grid button > svg,
+.visibility-choice button > svg,
+.theme-choice-row button.selected,
+.profile-mini__content > strong {
+  color: var(--accent);
+}
+
+/* A light custom color still has a visible selected state in the picker. */
+.accent-picker > div > button.selected,
+.profile-color-picker > button.selected {
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--text);
+}
+
+/* Public profile palette follows its own chosen theme and accent. */
+.public-cover {
+  color: var(--profile-accent-contrast, #fff);
+  background:
+    radial-gradient(circle at 78% 18%, color-mix(in srgb, var(--profile-accent-contrast, #fff) 18%, transparent), transparent 24%),
+    linear-gradient(135deg, color-mix(in srgb, var(--profile-accent) 90%, #18181c), color-mix(in srgb, var(--profile-accent) 48%, #09090c));
+}
+.public-cover__glow {
+  background: color-mix(in srgb, var(--profile-accent-contrast, #fff) 10%, transparent);
+}
+.public-avatar,
+.profile-mini__avatar {
+  color: var(--profile-accent-contrast, #fff);
+}
+.public-avatar {
+  border-color: color-mix(in srgb, var(--profile-accent-contrast, #fff) 88%, transparent);
+  background: var(--profile-accent);
+}
+.public-person strong { color: color-mix(in srgb, var(--profile-accent-contrast, #fff) 94%, transparent); }
+.public-person p { color: color-mix(in srgb, var(--profile-accent-contrast, #fff) 74%, transparent); }
+.public-meta { color: color-mix(in srgb, var(--profile-accent-contrast, #fff) 82%, transparent); }
+.public-meta span,
+.public-meta a {
+  background: color-mix(in srgb, var(--profile-accent-contrast, #fff) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--profile-accent-contrast, #fff) 10%, transparent);
+}
+.public-summary-card {
+  color: var(--profile-accent-contrast, #fff);
+  background: var(--profile-accent-overlay, rgba(9,9,12,.72));
+  border-color: color-mix(in srgb, var(--profile-accent-contrast, #fff) 14%, transparent);
+}
+.public-summary-card p { color: color-mix(in srgb, var(--profile-accent-contrast, #fff) 72%, transparent); }
+.public-summary-card__chips span {
+  color: var(--profile-accent-contrast, #fff);
+  background: color-mix(in srgb, var(--profile-accent-contrast, #fff) 10%, transparent);
+}
+.profile-mini__banner {
+  background:
+    radial-gradient(circle at 80% 25%, color-mix(in srgb, var(--profile-accent-contrast, #fff) 25%, transparent), transparent 25%),
+    linear-gradient(135deg, var(--profile-accent), color-mix(in srgb, var(--profile-accent) 45%, #111114));
+}
+.profile-mini__avatar { background: var(--profile-accent); }
+
+/* When the chosen accent is almost white, retain boundaries instead of producing blank blocks. */
+.button--primary,
+.sidebar__nav button.active,
+.avatar,
+.profile-media-avatar,
+.stepper button.active,
+.stepper button.done {
+  outline: 1px solid color-mix(in srgb, var(--accent-contrast) 15%, var(--line));
+  outline-offset: -1px;
+}
