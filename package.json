@@ -42,7 +42,7 @@
     "typescript": "^5.8.3",
     "vite": "^8.1.5",
     "wrangler": "^4.118.0",
-    "@types/node": "^24.3.0"
+    "@types/node": "^26.1.2"
   },
   "engines": {
     "node": ">=22.12.0"
