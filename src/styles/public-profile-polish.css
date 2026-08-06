@@ -1,4 +1,4 @@
-/* Public profile: the owner's theme must win over the visitor's app theme. */
+/* Public profile: the profile owner's theme and accent always win. */
 .public-profile {
   --accent-raw: var(--profile-accent-raw, var(--profile-accent));
   --accent: var(--profile-accent);
@@ -26,193 +26,220 @@
   border-color: color-mix(in srgb, var(--profile-accent) 34%, var(--line));
 }
 
-/* Keep the separator above the banner inside the rounded visual area. */
-.public-nav {
+/* The separator ends before the curved sides of the banner. */
+.public-profile .public-nav {
   position: relative;
   border-bottom: 0 !important;
 }
 
-.public-nav::after {
+.public-profile .public-nav::after {
   content: '';
   position: absolute;
-  left: 12px;
-  right: 12px;
+  left: 34px;
+  right: 34px;
   bottom: 0;
   height: 1px;
-  background: var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--line) 86%, transparent);
   pointer-events: none;
 }
 
-/* Keep the uploaded banner proportional instead of locking it to one fixed height. */
-@media (min-width: 721px) {
-  .public-cover {
-    min-height: 350px;
-    aspect-ratio: 3 / 1;
-  }
-}
-
-.public-cover {
+/* Banner keeps a stable wide proportion and preserves the uploaded image. */
+.public-profile .public-cover {
   isolation: isolate;
   background-position: center center;
   background-repeat: no-repeat;
 }
 
-.public-cover[style] {
+.public-profile .public-cover[style] {
   background-size: cover, cover;
 }
 
-.public-cover__content {
-  grid-template-columns: minmax(0, 690px) minmax(260px, 320px);
-  justify-content: space-between;
-  align-items: end;
-  gap: clamp(22px, 3vw, 42px);
-  padding: clamp(24px, 3vw, 36px);
+@media (min-width: 721px) {
+  .public-profile .public-cover {
+    min-height: 360px;
+    aspect-ratio: 3 / 1;
+  }
+
+  .public-profile .public-cover__content {
+    grid-template-columns: minmax(0, 640px) minmax(270px, 320px);
+    justify-content: space-between;
+    align-items: center;
+    gap: clamp(24px, 3vw, 42px);
+    padding: 32px 28px;
+  }
 }
 
-/* Uniform liquid-glass identity panel. No internal gradient or color shift. */
-.public-person {
+/* Uniform liquid glass: one neutral tone, with no internal color interpolation. */
+.public-profile .public-person {
   position: relative;
   isolation: isolate;
-  width: 100%;
-  max-width: 690px;
+  width: min(100%, 640px);
+  justify-self: start;
   overflow: hidden;
-  padding: clamp(18px, 2vw, 24px);
-  border: 1px solid rgba(255, 255, 255, .20);
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, .17);
   border-radius: 26px;
-  background: rgba(18, 19, 23, .48);
+  background: rgba(22, 22, 28, .46);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .18),
-    0 20px 48px rgba(0, 0, 0, .22);
-  -webkit-backdrop-filter: blur(22px) saturate(135%);
-  backdrop-filter: blur(22px) saturate(135%);
+    inset 0 1px 0 rgba(255, 255, 255, .15),
+    0 18px 42px rgba(0, 0, 0, .18);
+  -webkit-backdrop-filter: blur(18px) saturate(128%);
+  backdrop-filter: blur(18px) saturate(128%);
 }
 
-.public-person::before,
-.public-person::after {
+.public-profile .public-person::before,
+.public-profile .public-person::after {
   content: none;
+  display: none;
 }
 
-.public-person h1,
-.public-person strong,
-.public-person p,
-.public-person .public-meta,
-.public-person .public-meta a,
-.public-person .public-meta span {
+.public-profile .public-person h1,
+.public-profile .public-person strong,
+.public-profile .public-person p,
+.public-profile .public-person .public-meta,
+.public-profile .public-person .public-meta a,
+.public-profile .public-person .public-meta span {
   color: #ffffff;
 }
 
-.public-person h1 {
-  text-shadow: 0 2px 16px rgba(0, 0, 0, .28);
+.public-profile .public-person h1 {
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .24);
 }
 
-.public-person p {
-  color: rgba(255, 255, 255, .78);
+.public-profile .public-person p {
+  color: rgba(255, 255, 255, .80);
 }
 
-.public-person .eyebrow {
+.public-profile .public-person .eyebrow {
   color: color-mix(in srgb, var(--profile-accent) 72%, #ffffff 28%);
 }
 
-.public-person .public-meta a,
-.public-person .public-meta span {
+.public-profile .public-person .public-meta a,
+.public-profile .public-person .public-meta span {
   border: 1px solid rgba(255, 255, 255, .09);
-  background: rgba(7, 8, 11, .30);
+  background: rgba(12, 13, 17, .28);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 
-.public-avatar {
-  border-width: 3px;
-  border-color: rgba(255, 255, 255, .72);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, .22);
-}
-
-/* The summary follows the profile accent contrast automatically. */
-.public-summary-card {
-  color: var(--profile-accent-contrast);
-  border-color: rgba(var(--profile-accent-contrast-rgb), .18);
-  background: var(--profile-accent-overlay-strong);
+.public-profile .public-avatar {
+  width: 112px;
+  height: 112px;
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, .58);
+  border-radius: 28px;
   box-shadow:
-    inset 0 1px 0 rgba(var(--profile-accent-contrast-rgb), .15),
-    0 20px 46px rgba(0, 0, 0, .20);
-  -webkit-backdrop-filter: blur(20px) saturate(135%);
-  backdrop-filter: blur(20px) saturate(135%);
+    0 10px 24px rgba(0, 0, 0, .18),
+    inset 0 1px 0 rgba(255, 255, 255, .16);
 }
 
-.public-summary-card .eyebrow,
-.public-summary-card strong,
-.public-summary-card p,
-.public-summary-card__chips span {
-  color: var(--profile-accent-contrast);
+/* The right panel is inverted relative to the owner's selected profile theme. */
+.public-profile--dark {
+  --public-summary-background: rgba(246, 246, 248, .88);
+  --public-summary-text: #101114;
+  --public-summary-text-rgb: 16, 17, 20;
+  --public-summary-border: rgba(255, 255, 255, .42);
 }
 
-.public-summary-card p {
+.public-profile--light {
+  --public-summary-background: rgba(15, 16, 19, .88);
+  --public-summary-text: #ffffff;
+  --public-summary-text-rgb: 255, 255, 255;
+  --public-summary-border: rgba(15, 16, 19, .30);
+}
+
+.public-profile .public-summary-card {
+  width: 100%;
+  max-width: 320px;
+  justify-self: end;
+  color: var(--public-summary-text);
+  border-color: var(--public-summary-border);
+  background: var(--public-summary-background);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .20),
+    0 18px 42px rgba(0, 0, 0, .18);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  backdrop-filter: blur(18px) saturate(135%);
+}
+
+.public-profile .public-summary-card .eyebrow,
+.public-profile .public-summary-card strong,
+.public-profile .public-summary-card p,
+.public-profile .public-summary-card__chips span {
+  color: var(--public-summary-text);
+}
+
+.public-profile .public-summary-card p {
   opacity: .74;
 }
 
-.public-summary-card__chips span {
-  border: 1px solid rgba(var(--profile-accent-contrast-rgb), .08);
-  background: rgba(var(--profile-accent-contrast-rgb), .09);
+.public-profile .public-summary-card__chips span {
+  border: 1px solid rgba(var(--public-summary-text-rgb), .08);
+  background: rgba(var(--public-summary-text-rgb), .09);
 }
 
 @media (max-width: 1000px) {
-  .public-cover__content {
+  .public-profile .public-cover__content {
     grid-template-columns: minmax(0, 1fr) minmax(230px, 285px);
     padding: 26px;
     gap: 20px;
   }
 
-  .public-person {
-    max-width: 640px;
+  .public-profile .public-person {
+    width: 100%;
+    max-width: 590px;
     gap: 18px;
   }
 
-  .public-avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 26px;
+  .public-profile .public-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 24px;
   }
 }
 
 @media (max-width: 720px) {
-  .public-nav::after {
-    left: 8px;
-    right: 8px;
+  .public-profile .public-nav::after {
+    left: 22px;
+    right: 22px;
   }
 
-  .public-cover {
+  .public-profile .public-cover {
     min-height: 0;
     aspect-ratio: auto;
     background-position: center top;
   }
 
-  .public-cover[style] {
+  .public-profile .public-cover[style] {
     background-size: cover, cover;
   }
 
-  .public-cover__content {
+  .public-profile .public-cover__content {
     grid-template-columns: 1fr;
     padding: 18px;
     gap: 14px;
   }
 
-  .public-person {
+  .public-profile .public-person {
+    width: 100%;
     max-width: none;
     padding: 18px;
     border-radius: 22px;
   }
 
-  .public-summary-card {
+  .public-profile .public-summary-card {
     max-width: none;
+    justify-self: stretch;
   }
 }
 
 @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .public-person {
-    background: rgba(18, 19, 23, .92);
+  .public-profile .public-person {
+    background: rgba(22, 22, 28, .94);
   }
 
-  .public-summary-card {
-    background: var(--profile-accent-overlay-strong);
+  .public-profile .public-summary-card {
+    background: var(--public-summary-background);
   }
 }
