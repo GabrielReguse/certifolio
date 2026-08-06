@@ -1,0 +1,39 @@
+{
+  "name": "Certifólio — cursos e portfólio",
+  "short_name": "Certifólio",
+  "description": "Organize cursos, certificados, habilidades e seu perfil profissional.",
+  "lang": "pt-BR",
+  "start_url": "/app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f5f3ee",
+  "theme_color": "#315c46",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Adicionar curso",
+      "short_name": "Novo curso",
+      "url": "/app/cursos?novo=1"
+    },
+    {
+      "name": "Editar perfil",
+      "short_name": "Perfil",
+      "url": "/app/perfil"
+    }
+  ]
+}
