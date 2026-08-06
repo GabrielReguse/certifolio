@@ -26,10 +26,27 @@
   border-color: color-mix(in srgb, var(--profile-accent) 34%, var(--line));
 }
 
+/* Keep the separator above the banner inside the rounded visual area. */
+.public-nav {
+  position: relative;
+  border-bottom: 0 !important;
+}
+
+.public-nav::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 0;
+  height: 1px;
+  background: var(--line);
+  pointer-events: none;
+}
+
 /* Keep the uploaded banner proportional instead of locking it to one fixed height. */
 @media (min-width: 721px) {
   .public-cover {
-    min-height: 360px;
+    min-height: 350px;
     aspect-ratio: 3 / 1;
   }
 }
@@ -44,44 +61,35 @@
   background-size: cover, cover;
 }
 
-/* Liquid-glass identity panel over the banner. */
+.public-cover__content {
+  grid-template-columns: minmax(0, 690px) minmax(260px, 320px);
+  justify-content: space-between;
+  align-items: end;
+  gap: clamp(22px, 3vw, 42px);
+  padding: clamp(24px, 3vw, 36px);
+}
+
+/* Uniform liquid-glass identity panel. No internal gradient or color shift. */
 .public-person {
   position: relative;
   isolation: isolate;
+  width: 100%;
+  max-width: 690px;
   overflow: hidden;
-  padding: clamp(18px, 2vw, 26px);
-  border: 1px solid rgba(255, 255, 255, .24);
-  border-radius: 28px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .055) 48%, rgba(255, 255, 255, .10)),
-    rgba(8, 9, 12, .34);
+  padding: clamp(18px, 2vw, 24px);
+  border: 1px solid rgba(255, 255, 255, .20);
+  border-radius: 26px;
+  background: rgba(18, 19, 23, .48);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .28),
-    inset 0 -1px 0 rgba(255, 255, 255, .05),
-    0 24px 58px rgba(0, 0, 0, .24);
-  -webkit-backdrop-filter: blur(24px) saturate(145%);
-  backdrop-filter: blur(24px) saturate(145%);
+    inset 0 1px 0 rgba(255, 255, 255, .18),
+    0 20px 48px rgba(0, 0, 0, .22);
+  -webkit-backdrop-filter: blur(22px) saturate(135%);
+  backdrop-filter: blur(22px) saturate(135%);
 }
 
-.public-person::before {
-  content: '';
-  position: absolute;
-  inset: -45% 45% 42% -18%;
-  z-index: -1;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, .30), transparent 68%);
-  filter: blur(14px);
-  pointer-events: none;
-}
-
+.public-person::before,
 .public-person::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: linear-gradient(115deg, rgba(255, 255, 255, .14), transparent 24%, transparent 72%, rgba(255, 255, 255, .08));
-  pointer-events: none;
+  content: none;
 }
 
 .public-person h1,
@@ -94,7 +102,7 @@
 }
 
 .public-person h1 {
-  text-shadow: 0 2px 18px rgba(0, 0, 0, .30);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .28);
 }
 
 .public-person p {
@@ -102,59 +110,76 @@
 }
 
 .public-person .eyebrow {
-  color: color-mix(in srgb, var(--profile-accent) 68%, #ffffff 32%);
+  color: color-mix(in srgb, var(--profile-accent) 72%, #ffffff 28%);
 }
 
 .public-person .public-meta a,
 .public-person .public-meta span {
-  border: 1px solid rgba(255, 255, 255, .10);
-  background: rgba(7, 8, 11, .34);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, .09);
+  background: rgba(7, 8, 11, .30);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
 .public-avatar {
-  border-color: rgba(255, 255, 255, .82);
-  box-shadow:
-    0 18px 38px rgba(0, 0, 0, .26),
-    inset 0 1px 0 rgba(255, 255, 255, .28);
+  border-width: 3px;
+  border-color: rgba(255, 255, 255, .72);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, .22);
 }
 
-/* Match the right summary with the same glass language without competing with the identity block. */
+/* The summary follows the profile accent contrast automatically. */
 .public-summary-card {
-  border-color: rgba(255, 255, 255, .20);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, .13), rgba(255, 255, 255, .045)),
-    rgba(8, 9, 12, .46);
+  color: var(--profile-accent-contrast);
+  border-color: rgba(var(--profile-accent-contrast-rgb), .18);
+  background: var(--profile-accent-overlay-strong);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .18),
-    0 22px 52px rgba(0, 0, 0, .22);
-  -webkit-backdrop-filter: blur(22px) saturate(140%);
-  backdrop-filter: blur(22px) saturate(140%);
+    inset 0 1px 0 rgba(var(--profile-accent-contrast-rgb), .15),
+    0 20px 46px rgba(0, 0, 0, .20);
+  -webkit-backdrop-filter: blur(20px) saturate(135%);
+  backdrop-filter: blur(20px) saturate(135%);
 }
 
-.public-summary-card .eyebrow {
-  color: color-mix(in srgb, var(--profile-accent) 68%, #ffffff 32%);
+.public-summary-card .eyebrow,
+.public-summary-card strong,
+.public-summary-card p,
+.public-summary-card__chips span {
+  color: var(--profile-accent-contrast);
 }
 
-@media (max-width: 900px) {
+.public-summary-card p {
+  opacity: .74;
+}
+
+.public-summary-card__chips span {
+  border: 1px solid rgba(var(--profile-accent-contrast-rgb), .08);
+  background: rgba(var(--profile-accent-contrast-rgb), .09);
+}
+
+@media (max-width: 1000px) {
   .public-cover__content {
-    grid-template-columns: minmax(0, 1fr) minmax(230px, 290px);
-    padding: 28px;
+    grid-template-columns: minmax(0, 1fr) minmax(230px, 285px);
+    padding: 26px;
+    gap: 20px;
   }
 
   .public-person {
+    max-width: 640px;
     gap: 18px;
   }
 
   .public-avatar {
-    width: 104px;
-    height: 104px;
-    border-radius: 28px;
+    width: 100px;
+    height: 100px;
+    border-radius: 26px;
   }
 }
 
 @media (max-width: 720px) {
+  .public-nav::after {
+    left: 8px;
+    right: 8px;
+  }
+
   .public-cover {
     min-height: 0;
     aspect-ratio: auto;
@@ -172,8 +197,9 @@
   }
 
   .public-person {
+    max-width: none;
     padding: 18px;
-    border-radius: 24px;
+    border-radius: 22px;
   }
 
   .public-summary-card {
@@ -182,8 +208,11 @@
 }
 
 @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .public-person,
+  .public-person {
+    background: rgba(18, 19, 23, .92);
+  }
+
   .public-summary-card {
-    background: rgba(12, 13, 17, .88);
+    background: var(--profile-accent-overlay-strong);
   }
 }
