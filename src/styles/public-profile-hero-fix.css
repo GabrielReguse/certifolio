@@ -1,0 +1,56 @@
+/* Keep the desktop profile hero tall enough for real names, titles and bios.
+   The previous 3:1 aspect ratio forced the cover to remain around 360px tall,
+   so taller identity cards were centered outside the cover and clipped. */
+@media (min-width: 721px) {
+  .public-profile .public-cover {
+    height: auto;
+    min-height: clamp(440px, 38vw, 520px);
+    aspect-ratio: auto;
+    align-items: stretch;
+  }
+
+  .public-profile .public-cover__content {
+    min-height: inherit;
+    box-sizing: border-box;
+    align-items: center;
+    padding-block: clamp(28px, 3vw, 42px);
+  }
+
+  .public-profile .public-person,
+  .public-profile .public-summary-card {
+    align-self: center;
+  }
+
+  .public-profile .public-person__info {
+    min-width: 0;
+    padding-block: 2px;
+  }
+
+  .public-profile .public-person h1 {
+    max-width: 100%;
+    font-size: clamp(2.45rem, 4.25vw, 3.75rem);
+    line-height: .95;
+    overflow-wrap: anywhere;
+  }
+
+  .public-profile .public-person strong,
+  .public-profile .public-person p {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* At intermediate widths the text column narrows considerably, so the hero
+   receives extra vertical room instead of allowing the card to escape upward. */
+@media (min-width: 721px) and (max-width: 1000px) {
+  .public-profile .public-cover {
+    min-height: 520px;
+  }
+
+  .public-profile .public-cover__content {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 270px);
+  }
+
+  .public-profile .public-person h1 {
+    font-size: clamp(2.3rem, 5vw, 3.2rem);
+  }
+}
