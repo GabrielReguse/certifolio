@@ -13,7 +13,10 @@ export const profiles = sqliteTable('profiles', {
   avatarFormat: text('avatar_format'),
   bannerKey: text('banner_key'),
   bannerFormat: text('banner_format'),
-  profileVisibility: text('profile_visibility', { enum: ['public', 'private'] }).notNull().default('private'),
+  bannerPositionX: integer('banner_position_x').notNull().default(50),
+  bannerPositionY: integer('banner_position_y').notNull().default(50),
+  bannerZoom: integer('banner_zoom').notNull().default(100),
+  profileVisibility: text('profile_visibility', { enum: ['public', 'unlisted', 'private'] }).notNull().default('private'),
   profileLayout: text('profile_layout', { enum: ['grid', 'timeline', 'resume'] }).notNull().default('grid'),
   publicTheme: text('public_theme', { enum: ['light', 'dark', 'system'] }).notNull().default('system'),
   accentColor: text('accent_color').notNull().default('#315c46'),
@@ -25,7 +28,6 @@ export const profiles = sqliteTable('profiles', {
   createdAt: text('created_at').notNull(),
   updatedAt: text('updated_at').notNull(),
 }, (table) => [uniqueIndex('idx_profiles_username').on(table.username)]);
-
 
 export const learningGoals = sqliteTable('learning_goals', {
   id: text('id').primaryKey(),

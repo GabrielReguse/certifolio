@@ -48,6 +48,9 @@ meRoutes.patch('/profile', async (c) => {
       roleTitle: parsed.data.roleTitle || '',
       location: parsed.data.location || '',
       website: parsed.data.website || '',
+      bannerPositionX: parsed.data.bannerPositionX,
+      bannerPositionY: parsed.data.bannerPositionY,
+      bannerZoom: parsed.data.bannerZoom,
       profileVisibility: parsed.data.profileVisibility,
       profileLayout: parsed.data.profileLayout,
       publicTheme: parsed.data.publicTheme,
@@ -55,7 +58,7 @@ meRoutes.patch('/profile', async (c) => {
       showRating: parsed.data.showRating,
       showTotalHours: parsed.data.showTotalHours,
       showInstitutions: parsed.data.showInstitutions,
-      allowIndexing: parsed.data.allowIndexing,
+      allowIndexing: parsed.data.profileVisibility === 'public' ? parsed.data.allowIndexing : false,
       onboardingCompleted: parsed.data.onboardingCompleted ?? current.onboardingCompleted,
       updatedAt,
     }).where(eq(profiles.id, current.id));

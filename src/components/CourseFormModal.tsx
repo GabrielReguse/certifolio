@@ -99,7 +99,7 @@ export function CourseFormModal({ open, course, onClose, onSaved, notify }: { op
         try { await uploadFile(`/api/files/courses/${result.course.id}`, file); }
         catch (error) {
           uploadFailed = true;
-          notify(`O curso foi salvo, mas o comprovante não: ${error instanceof Error ? error.message : 'falha no upload.'}`, 'error');
+          notify(`O curso foi salvo, mas o arquivo não: ${error instanceof Error ? error.message : 'falha no upload.'}`, 'error');
         }
       }
 
@@ -113,13 +113,13 @@ export function CourseFormModal({ open, course, onClose, onSaved, notify }: { op
     }
   };
 
-  return <Modal open={open} title={isEditing ? 'Editar curso' : 'Novo curso'} subtitle="Cadastre a formação com clareza. O comprovante continua privado por padrão." onClose={onClose} wide>
-    <div className="stepper">{[1,2,3].map((number) => <button key={number} type="button" className={step === number ? 'active' : step > number ? 'done' : ''} onClick={() => number <= step && setStep(number)}><span>{step > number ? <Icon name="check" size={15}/> : number}</span>{['Curso', 'Período', 'Comprovação'][number - 1]}</button>)}</div>
+  return <Modal open={open} title={isEditing ? 'Editar curso' : 'Novo curso'} subtitle="Cadastre a formação com clareza. Arquivos e dados pessoais continuam privados por padrão." onClose={onClose} wide>
+    <div className="stepper">{[1,2,3].map((number) => <button key={number} type="button" className={step === number ? 'active' : step > number ? 'done' : ''} onClick={() => number <= step && setStep(number)}><span>{step > number ? <Icon name="check" size={15}/> : number}</span>{['Curso', 'Período', 'Publicação'][number - 1]}</button>)}</div>
     <form onSubmit={submit} className="course-form">
       {step === 1 && <div className="form-grid">
         <label className="field field--full"><span>Nome do curso</span><input autoFocus value={form.title} onChange={(e) => update('title', e.target.value)} placeholder="Ex.: Fundamentos de UX Design" required /></label>
-        <label className="field"><span>Instituição emissora</span><input value={form.institutionName} onChange={(e) => update('institutionName', e.target.value)} placeholder="Ex.: Google, IFC ou Alura" required /><small>Quem emitiu ou assina o certificado.</small></label>
-        <label className="field"><span>Onde o curso foi realizado? <em>Opcional</em></span><input value={form.platformName} onChange={(e) => update('platformName', e.target.value)} placeholder="Ex.: Coursera, Curso em Vídeo ou presencial" /><small>Informe o site, ambiente ou modalidade. Não repita a instituição se foi no próprio site dela.</small></label>
+        <label className="field"><span>Instituição emissora</span><input value={form.institutionName} onChange={(e) => update('institutionName', e.target.value)} placeholder="Ex.: Google, IFC ou Alura" required /><small>Quem ofereceu, emitiu ou assina a formação.</small></label>
+        <label className="field"><span>Plataforma ou modalidade <em>Opcional</em></span><input value={form.platformName} onChange={(e) => update('platformName', e.target.value)} placeholder="Ex.: Coursera, presencial ou híbrido" /><small>Informe onde o curso aconteceu. Não repita a instituição quando foi no próprio ambiente dela.</small></label>
         <label className="field field--full"><span>Site da instituição <em>Opcional</em></span><input type="url" value={form.institutionWebsite || ''} onChange={(e) => update('institutionWebsite', e.target.value)} placeholder="https://instituicao.com" /></label>
         <label className="field"><span>Categoria</span><select value={form.category} onChange={(e) => update('category', e.target.value)}>{categories.map((item) => <option key={item}>{item}</option>)}</select></label>
         <label className="field"><span>Situação</span><select value={form.status} onChange={(e) => update('status', e.target.value as CourseInput['status'])}><option value="completed">Concluído</option><option value="in_progress">Em andamento</option><option value="planned">Planejado</option><option value="abandoned">Interrompido</option><option value="expired">Expirado</option></select></label>
@@ -137,12 +137,11 @@ export function CourseFormModal({ open, course, onClose, onSaved, notify }: { op
       </div>}
 
       {step === 3 && <div className="form-grid">
-        <label className="field"><span>ID da credencial</span><input value={form.credentialId} onChange={(e) => update('credentialId', e.target.value)} placeholder="ABC-12345" /></label>
-        <label className="field"><span>Link de verificação</span><input type="url" value={form.verificationUrl} onChange={(e) => update('verificationUrl', e.target.value)} placeholder="https://..." /></label>
-        <label className="upload-field field--full"><input type="file" accept="application/pdf,image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] || null)} /><Icon name="upload" size={24}/><strong>{file ? file.name : isEditing && course?.fileCount ? 'Substituir ou adicionar comprovante' : 'Selecionar certificado'}</strong><span>PDF, JPG, PNG ou WebP · máximo 20 MB</span></label>
-        {isEditing && course && course.fileCount > 0 && <div className="field field--full"><a className="certificate-link" href={`/api/files/courses/${course.id}/primary`} target="_blank" rel="noreferrer"><Icon name="eye" size={17}/>Abrir comprovante atual</a></div>}
-        <label className="field"><span>Visibilidade do curso</span><select value={form.visibility} onChange={(e) => update('visibility', e.target.value as CourseInput['visibility'])}><option value="private">Privado</option><option value="public">Público</option><option value="unlisted">Somente por link</option></select></label>
-        <label className="field"><span>Comprovante</span><select value={form.certificateVisibility === 'public' ? 'public' : 'private'} onChange={(e) => update('certificateVisibility', e.target.value as CourseInput['certificateVisibility'])}><option value="private">Não publicar o arquivo</option><option value="public">Publicar o arquivo original</option></select><small>Publicar libera o arquivo enviado. Confira antes se ele contém CPF, assinatura ou outros dados pessoais.</small></label>
+        <div className="publication-notice field--full"><Icon name="info" size={19}/><div><strong>O Certifólio organiza o que você informa</strong><span>A plataforma não valida a autenticidade do curso ou do arquivo. Publique apenas dados que você possa sustentar.</span></div></div>
+        <label className="upload-field field--full"><input type="file" accept="application/pdf,image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] || null)} /><Icon name="upload" size={24}/><strong>{file ? file.name : isEditing && course?.fileCount ? 'Substituir ou adicionar arquivo' : 'Selecionar certificado ou comprovante'}</strong><span>PDF, JPG, PNG ou WebP · máximo 20 MB</span></label>
+        {isEditing && course && course.fileCount > 0 && <div className="field field--full"><a className="certificate-link" href={`/api/files/courses/${course.id}/primary`} target="_blank" rel="noreferrer"><Icon name="eye" size={17}/>Abrir arquivo atual</a></div>}
+        <label className="field"><span>Visibilidade do curso</span><select value={form.visibility} onChange={(e) => update('visibility', e.target.value as CourseInput['visibility'])}><option value="private">Privado</option><option value="public">Público no perfil</option><option value="unlisted">Somente por link</option></select><small>“Somente por link” não aparece no perfil público.</small></label>
+        <label className="field"><span>Arquivo enviado</span><select value={form.certificateVisibility === 'public' ? 'public' : 'private'} onChange={(e) => update('certificateVisibility', e.target.value as CourseInput['certificateVisibility'])}><option value="private">Não publicar o arquivo</option><option value="public">Publicar o arquivo original</option></select><small>Confira antes se ele contém CPF, assinatura, código ou outros dados pessoais.</small></label>
         {isEditing && course && form.visibility === 'unlisted' && <div className="share-link-box field--full"><div><Icon name="external" size={18}/><span><strong>Link compartilhável</strong><small>{`${window.location.origin}/c/${course.id}`}</small></span></div><button type="button" className="button button--ghost" onClick={() => void copyShareLink()}>Copiar link</button></div>}
         <label className="field field--full"><span>Observações privadas</span><textarea value={form.notes} onChange={(e) => update('notes', e.target.value)} placeholder="Anotações que só você verá." /></label>
         <label className="switch-row field--full"><input type="checkbox" checked={form.isFeatured} onChange={(e) => update('isFeatured', e.target.checked)} /><span><strong>Destacar no perfil</strong><small>O curso aparece antes dos demais quando for público.</small></span></label>

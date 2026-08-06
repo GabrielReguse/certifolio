@@ -9,10 +9,11 @@ publicRoutes.get('/profiles/:username', async (c) => {
   const username = (c.req.param('username') || '').toLowerCase();
   const profile = await c.env.DB.prepare(`
     SELECT id, user_id, username, display_name, bio, role_title, location, website,
-      avatar_key, avatar_format, banner_key, banner_format, profile_layout, public_theme, accent_color,
+      avatar_key, avatar_format, banner_key, banner_format, banner_position_x, banner_position_y, banner_zoom,
+      profile_visibility, profile_layout, public_theme, accent_color,
       show_rating, show_total_hours, show_institutions, allow_indexing
     FROM profiles
-    WHERE username = ?1 AND profile_visibility = 'public'
+    WHERE username = ?1 AND profile_visibility IN ('public', 'unlisted')
     LIMIT 1
   `).bind(username).first<Record<string, unknown>>();
   if (!profile) return c.json({ error: 'NOT_FOUND', message: 'Perfil não encontrado ou privado.' }, 404);
@@ -35,9 +36,10 @@ publicRoutes.get('/profiles/:username', async (c) => {
     `).bind(profile.user_id).first<Record<string, number>>(),
   ]);
 
-  const allowIndexing = Boolean(profile.allow_indexing);
+  const isListed = profile.profile_visibility === 'public';
+  const allowIndexing = isListed && Boolean(profile.allow_indexing);
   c.header('X-Robots-Tag', allowIndexing ? 'index, follow' : 'noindex, nofollow');
-  c.header('Cache-Control', 'public, max-age=60, stale-while-revalidate=300');
+  c.header('Cache-Control', isListed ? 'public, max-age=60, stale-while-revalidate=300' : 'private, no-store');
 
   return c.json({
     profile: {
@@ -47,9 +49,13 @@ publicRoutes.get('/profiles/:username', async (c) => {
       roleTitle: profile.role_title,
       location: profile.location,
       website: profile.website,
+      visibility: profile.profile_visibility,
       layout: profile.profile_layout,
       theme: profile.public_theme,
       accentColor: profile.accent_color,
+      bannerPositionX: Number(profile.banner_position_x ?? 50),
+      bannerPositionY: Number(profile.banner_position_y ?? 50),
+      bannerZoom: Number(profile.banner_zoom ?? 100),
       showRating: Boolean(profile.show_rating),
       showTotalHours: Boolean(profile.show_total_hours),
       showInstitutions: Boolean(profile.show_institutions),
@@ -109,9 +115,9 @@ publicRoutes.get('/media/:username/:kind', async (c) => {
   if (kind !== 'avatar' && kind !== 'banner') return c.body(null, 404);
   const keyColumn = kind === 'avatar' ? 'avatar_key' : 'banner_key';
   const formatColumn = kind === 'avatar' ? 'avatar_format' : 'banner_format';
-  const result = await c.env.DB.prepare(`SELECT ${keyColumn} AS object_key, ${formatColumn} AS format FROM profiles WHERE username = ?1 AND profile_visibility = 'public' LIMIT 1`)
+  const result = await c.env.DB.prepare(`SELECT ${keyColumn} AS object_key, ${formatColumn} AS format, profile_visibility FROM profiles WHERE username = ?1 AND profile_visibility IN ('public', 'unlisted') LIMIT 1`)
     .bind(c.req.param('username').toLowerCase())
-    .first<{ object_key: string | null; format: string | null }>();
+    .first<{ object_key: string | null; format: string | null; profile_visibility: string }>();
   if (!result?.object_key || !result.format) return c.body(null, 404);
 
   try {
@@ -121,7 +127,7 @@ publicRoutes.get('/media/:username/:kind', async (c) => {
       deliveryType: 'authenticated',
       format: result.format,
     });
-    c.header('Cache-Control', 'public, max-age=300');
+    c.header('Cache-Control', result.profile_visibility === 'public' ? 'public, max-age=300' : 'private, no-store');
     return c.redirect(url, 302);
   } catch (error) {
     console.error(`Falha ao gerar URL pública da imagem (${kind}).`, error);

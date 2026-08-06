@@ -1,4 +1,5 @@
 export type ThemeMode = 'light' | 'dark' | 'system';
+export type ProfileVisibility = 'public' | 'unlisted' | 'private';
 export type CourseVisibility = 'private' | 'public' | 'unlisted';
 export type CourseStatus = 'planned' | 'in_progress' | 'completed' | 'abandoned' | 'expired';
 
@@ -23,7 +24,10 @@ export type Profile = {
   avatarFormat?: string | null;
   bannerKey?: string | null;
   bannerFormat?: string | null;
-  profileVisibility: 'public' | 'private';
+  bannerPositionX: number;
+  bannerPositionY: number;
+  bannerZoom: number;
+  profileVisibility: ProfileVisibility;
   profileLayout: 'grid' | 'timeline' | 'resume';
   publicTheme: ThemeMode;
   accentColor: string;
@@ -88,7 +92,6 @@ export type CourseInput = {
   notes: string;
   skills: string[];
 };
-
 
 export type GoalMetric = 'hours' | 'courses';
 

@@ -62,14 +62,14 @@ export function InstitutionsPage({ refreshKey, onEdit }: { refreshKey: number; o
 
   return <div className="page-stack institutions-page">
     <section className="section-intro institution-intro">
-      <div><span className="eyebrow">Organização automática</span><h2>Uma pasta para cada instituição.</h2><p>Clique em uma pasta para consultar todos os cursos, horas e competências vinculadas à emissora.</p></div>
+      <div><span className="eyebrow">Organização automática</span><h2>Uma pasta para cada instituição.</h2><p>Abra uma pasta para consultar todos os cursos, horas e competências vinculadas à instituição emissora.</p></div>
       {items?.length ? <span className="institution-count"><b>{items.length}</b>{items.length === 1 ? 'instituição organizada' : 'instituições organizadas'}</span> : null}
     </section>
 
-    {items?.length ? <div className="folder-grid">{items.map((item, index) => <button className="folder-card" style={{ '--folder-index': index } as React.CSSProperties} key={item.id} onClick={() => void openFolder(item)}>
+    {items?.length ? <div className="folder-grid">{items.map((item, index) => <button className="folder-card" style={{ '--folder-index': index } as React.CSSProperties} key={item.id} onClick={() => void openFolder(item)} aria-label={`Abrir pasta de ${item.name}, com ${item.courseCount} ${item.courseCount === 1 ? 'curso' : 'cursos'}`} aria-haspopup="dialog">
       <div className="folder-card__top">
         <div className="folder-card__icon"><Icon name="folder" size={25}/></div>
-        <span className="folder-card__status">{item.status === 'official' ? 'Verificada' : 'Comunidade'}</span>
+        <span className="folder-card__status">{item.status === 'official' ? 'Oficial' : 'Organizada'}</span>
       </div>
       <div className="folder-card__content">
         <h3>{item.name}</h3>
@@ -77,9 +77,9 @@ export function InstitutionsPage({ refreshKey, onEdit }: { refreshKey: number; o
       </div>
       <footer className="folder-card__footer-new">
         <span>Atualizada {formatDate(item.lastActivity)}</span>
-        <strong>Abrir pasta <Icon name="arrow" size={15}/></strong>
+        <strong>Abrir cursos <Icon name="arrow" size={15}/></strong>
       </footer>
-    </button>)}</div> : <EmptyState icon="folder" title="As pastas aparecerão sozinhas" text="Cadastre cursos e as instituições serão agrupadas aqui."/>}
+    </button>)}</div> : <EmptyState icon="folder" title="As pastas aparecerão sozinhas" text="Cadastre cursos e as instituições emissoras serão agrupadas aqui."/>}
 
     <Modal open={Boolean(selected)} title={selected?.name || 'Instituição'} subtitle={selected ? `${selected.courseCount} ${selected.courseCount === 1 ? 'curso' : 'cursos'} · ${formatMinutes(selected.totalMinutes)}` : undefined} onClose={() => setSelected(null)} wide>
       <div className="institution-modal">

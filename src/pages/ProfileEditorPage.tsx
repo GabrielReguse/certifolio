@@ -1,17 +1,45 @@
-import { useEffect, useState, type FormEvent, type CSSProperties } from 'react';
+import { useEffect, useMemo, useState, type FormEvent, type CSSProperties } from 'react';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { Icon } from '../components/Icon';
 import { useSession } from '../context/SessionContext';
 import { api, uploadFile } from '../lib/api';
 import { buildAccentPalette } from '../lib/color';
 import { formatMinutes, initials } from '../lib/format';
-import type { DashboardData, Profile } from '../types';
+import type { DashboardData, Profile, ProfileVisibility } from '../types';
 
 const accentOptions = ['#315c46', '#2563eb', '#7c3aed', '#c0265e', '#d9480f', '#0f8585'];
+type PreviewDevice = 'desktop' | 'tablet' | 'mobile';
+
+function normalizeProfile(value: Profile | null): Profile | null {
+  if (!value) return null;
+  return {
+    ...value,
+    bannerPositionX: value.bannerPositionX ?? 50,
+    bannerPositionY: value.bannerPositionY ?? 50,
+    bannerZoom: value.bannerZoom ?? 100,
+  };
+}
+
+async function copyText(value: string) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(value);
+    return;
+  }
+  const helper = document.createElement('textarea');
+  helper.value = value;
+  helper.setAttribute('readonly', '');
+  helper.style.position = 'fixed';
+  helper.style.opacity = '0';
+  document.body.appendChild(helper);
+  helper.select();
+  const copied = document.execCommand('copy');
+  helper.remove();
+  if (!copied) throw new Error('COPY_FAILED');
+}
 
 export function ProfileEditorPage({ notify }: { notify: (message: string, type?: 'success' | 'error') => void }) {
   const { profile, user, refresh } = useSession();
-  const [form, setForm] = useState<Profile | null>(profile);
+  const [form, setForm] = useState<Profile | null>(() => normalizeProfile(profile));
   const [stats, setStats] = useState<DashboardData['stats'] | null>(null);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState<'avatar' | 'banner' | null>(null);
@@ -20,8 +48,9 @@ export function ProfileEditorPage({ notify }: { notify: (message: string, type?:
   const [localAvatar, setLocalAvatar] = useState('');
   const [localBanner, setLocalBanner] = useState('');
   const [pendingRemove, setPendingRemove] = useState<'avatar' | 'banner' | null>(null);
+  const [previewDevice, setPreviewDevice] = useState<PreviewDevice>('desktop');
 
-  useEffect(() => setForm(profile), [profile]);
+  useEffect(() => setForm(normalizeProfile(profile)), [profile]);
   useEffect(() => { void api<DashboardData>('/api/courses/dashboard').then((data) => setStats(data.stats)).catch(() => undefined); }, []);
   useEffect(() => () => {
     if (localAvatar) URL.revokeObjectURL(localAvatar);
@@ -30,6 +59,11 @@ export function ProfileEditorPage({ notify }: { notify: (message: string, type?:
 
   if (!form) return null;
   const update = <K extends keyof Profile>(key: K, value: Profile[K]) => setForm((current) => current ? ({ ...current, [key]: value }) : current);
+  const setVisibility = (value: ProfileVisibility) => setForm((current) => current ? ({
+    ...current,
+    profileVisibility: value,
+    allowIndexing: value === 'public' ? current.allowIndexing : false,
+  }) : current);
 
   const save = async (event: FormEvent) => {
     event.preventDefault();
@@ -86,6 +120,10 @@ export function ProfileEditorPage({ notify }: { notify: (message: string, type?:
   const publicUrl = `${window.location.origin}/u/${form.username}`;
   const avatarSrc = localAvatar || (form.avatarKey ? `/api/files/profile/avatar?v=${avatarVersion}` : '');
   const bannerSrc = localBanner || (form.bannerKey ? `/api/files/profile/banner?v=${bannerVersion}` : '');
+  const bannerImageStyle = {
+    objectPosition: `${form.bannerPositionX}% ${form.bannerPositionY}%`,
+    transform: `scale(${form.bannerZoom / 100})`,
+  } as CSSProperties;
   const statsView = {
     courses: stats?.totalCourses ?? 0,
     hours: formatMinutes(stats?.totalMinutes ?? 0),
@@ -104,10 +142,21 @@ export function ProfileEditorPage({ notify }: { notify: (message: string, type?:
     '--profile-accent-overlay': profilePalette.overlay,
     '--profile-accent-overlay-strong': profilePalette.overlayStrong,
   } as CSSProperties;
+  const hasChanges = useMemo(() => JSON.stringify(normalizeProfile(profile)) !== JSON.stringify(form), [form, profile]);
+
+  const shareProfile = async () => {
+    try {
+      await copyText(publicUrl);
+      notify('Link do perfil copiado.');
+    } catch {
+      notify('Não foi possível copiar o link.', 'error');
+    }
+  };
 
   return <form className="profile-editor" onSubmit={save}><div className="profile-editor__form">
-    <section className="panel profile-media-panel"><header className="panel__header"><div><span className="eyebrow">Sua identidade visual</span><h2>Foto e banner</h2><p>Essas imagens aparecem no topo do seu perfil público. Use JPG, PNG ou WebP de até 5 MB.</p></div></header>
-      <div className="profile-media-banner" style={bannerSrc ? { backgroundImage: `url(${bannerSrc})` } : undefined}>
+    <section className="panel profile-media-panel"><header className="panel__header"><div><span className="eyebrow">Sua identidade visual</span><h2>Foto e banner</h2><p>Envie a imagem e ajuste exatamente qual região deve aparecer no perfil público.</p></div></header>
+      <div className="profile-media-banner">
+        {bannerSrc ? <img className="profile-banner-image" src={bannerSrc} alt="Prévia do banner" style={bannerImageStyle}/> : null}
         <div className="profile-media-banner__shade"/>
         <div className="profile-media-avatar">{avatarSrc ? <img src={avatarSrc} alt="Prévia da foto de perfil"/> : initials(form.displayName || user?.name || 'C')}</div>
         <div className="profile-media-actions">
@@ -115,6 +164,12 @@ export function ProfileEditorPage({ notify }: { notify: (message: string, type?:
           {bannerSrc ? <button type="button" className="button button--glass" disabled={Boolean(uploading)} onClick={() => setPendingRemove('banner')}><Icon name="trash" size={16}/>Remover</button> : null}
         </div>
       </div>
+      {bannerSrc ? <div className="banner-composer" aria-label="Ajustar enquadramento do banner">
+        <label><span>Horizontal <b>{form.bannerPositionX}%</b></span><input type="range" min="0" max="100" value={form.bannerPositionX} onChange={(event) => update('bannerPositionX', Number(event.target.value))}/></label>
+        <label><span>Vertical <b>{form.bannerPositionY}%</b></span><input type="range" min="0" max="100" value={form.bannerPositionY} onChange={(event) => update('bannerPositionY', Number(event.target.value))}/></label>
+        <label><span>Zoom <b>{form.bannerZoom}%</b></span><input type="range" min="100" max="180" value={form.bannerZoom} onChange={(event) => update('bannerZoom', Number(event.target.value))}/></label>
+        <button type="button" className="button button--ghost" onClick={() => setForm((current) => current ? ({ ...current, bannerPositionX: 50, bannerPositionY: 50, bannerZoom: 100 }) : current)}>Centralizar</button>
+      </div> : null}
       <div className="profile-avatar-controls"><div><strong>Foto de perfil</strong><span>Recomendado: imagem quadrada, com pelo menos 400 × 400 px.</span></div><div><label className="button button--ghost"><Icon name="camera" size={17}/>{uploading === 'avatar' ? 'Enviando…' : avatarSrc ? 'Trocar foto' : 'Adicionar foto'}<input type="file" accept="image/jpeg,image/png,image/webp" disabled={Boolean(uploading)} onChange={(event) => void upload('avatar', event.target.files?.[0])}/></label>{avatarSrc ? <button type="button" className="button button--quiet-danger" disabled={Boolean(uploading)} onClick={() => setPendingRemove('avatar')}>Remover</button> : null}</div></div>
     </section>
 
@@ -137,14 +192,18 @@ export function ProfileEditorPage({ notify }: { notify: (message: string, type?:
         ['light', 'sun', 'Claro'], ['dark', 'moon', 'Escuro'], ['system', 'monitor', 'Sistema'],
       ] as const).map(([value, icon, label]) => <button type="button" key={value} className={form.publicTheme === value ? 'selected' : ''} onClick={() => update('publicTheme', value)}><Icon name={icon}/><span>{label}</span></button>)}</div></div>
       <div className="appearance-group"><span>Cor de destaque</span><div className="profile-color-picker">{accentOptions.map((color) => <button type="button" key={color} className={form.accentColor.toLowerCase() === color ? 'selected' : ''} style={{ background: color }} onClick={() => update('accentColor', color)} aria-label={`Usar a cor ${color}`}/>)}<label><input type="color" value={form.accentColor} onChange={(e) => update('accentColor', e.target.value)}/><Icon name="plus" size={16}/><span>Personalizada</span></label></div></div>
-      <div className="appearance-group"><span>Visibilidade</span><div className="visibility-choice"><button type="button" className={form.profileVisibility === 'public' ? 'selected' : ''} onClick={() => update('profileVisibility', 'public')}><Icon name="globe"/><span><strong>Público</strong><small>Qualquer pessoa com o endereço pode acessar.</small></span></button><button type="button" className={form.profileVisibility === 'private' ? 'selected' : ''} onClick={() => update('profileVisibility', 'private')}><Icon name="lock"/><span><strong>Privado</strong><small>Seu perfil fica visível apenas para você.</small></span></button></div></div>
-      <div className="settings-switches"><label><input type="checkbox" checked={form.showTotalHours} onChange={(e) => update('showTotalHours', e.target.checked)}/><span><strong>Mostrar horas totais</strong><small>Exibe a soma dos cursos públicos.</small></span></label><label><input type="checkbox" checked={form.showRating} onChange={(e) => update('showRating', e.target.checked)}/><span><strong>Mostrar avaliações</strong><small>As estrelas são sua avaliação pessoal.</small></span></label><label><input type="checkbox" checked={form.showInstitutions} onChange={(e) => update('showInstitutions', e.target.checked)}/><span><strong>Mostrar instituições</strong><small>Exibe o total de emissoras.</small></span></label><label><input type="checkbox" checked={form.allowIndexing} onChange={(e) => update('allowIndexing', e.target.checked)}/><span><strong>Permitir buscadores</strong><small>Somente faz sentido em perfil público.</small></span></label></div>
+      <div className="appearance-group"><span>Visibilidade</span><div className="visibility-choice visibility-choice--three">
+        <button type="button" className={form.profileVisibility === 'public' ? 'selected' : ''} onClick={() => setVisibility('public')}><Icon name="globe"/><span><strong>Público</strong><small>Aberto pelo link e pode aparecer em buscadores.</small></span></button>
+        <button type="button" className={form.profileVisibility === 'unlisted' ? 'selected' : ''} onClick={() => setVisibility('unlisted')}><Icon name="external"/><span><strong>Somente por link</strong><small>Abre normalmente, mas nunca é indexado.</small></span></button>
+        <button type="button" className={form.profileVisibility === 'private' ? 'selected' : ''} onClick={() => setVisibility('private')}><Icon name="lock"/><span><strong>Privado</strong><small>Fica visível apenas para você.</small></span></button>
+      </div></div>
+      <div className="settings-switches"><label><input type="checkbox" checked={form.showTotalHours} onChange={(e) => update('showTotalHours', e.target.checked)}/><span><strong>Mostrar horas totais</strong><small>Exibe a soma dos cursos públicos.</small></span></label><label><input type="checkbox" checked={form.showRating} onChange={(e) => update('showRating', e.target.checked)}/><span><strong>Mostrar avaliações</strong><small>As estrelas são sua avaliação pessoal.</small></span></label><label><input type="checkbox" checked={form.showInstitutions} onChange={(e) => update('showInstitutions', e.target.checked)}/><span><strong>Mostrar instituições</strong><small>Exibe o total de emissoras.</small></span></label><label className={form.profileVisibility !== 'public' ? 'is-disabled' : ''}><input type="checkbox" disabled={form.profileVisibility !== 'public'} checked={form.allowIndexing && form.profileVisibility === 'public'} onChange={(e) => update('allowIndexing', e.target.checked)}/><span><strong>Permitir buscadores</strong><small>Disponível somente para perfis públicos.</small></span></label></div>
     </section>
 
-    <footer className="sticky-save"><span>{form.profileVisibility === 'public' ? <>Seu perfil: <a href={publicUrl} target="_blank" rel="noreferrer">/u/{form.username}</a></> : 'Seu perfil está privado.'}</span><button className="button button--primary" disabled={saving}>{saving ? 'Salvando…' : 'Salvar perfil'}</button></footer>
+    <footer className="sticky-save"><span>{form.profileVisibility === 'private' ? 'Seu perfil está privado.' : <>Seu perfil: <a href={publicUrl} target="_blank" rel="noreferrer">/u/{form.username}</a> · <button type="button" className="inline-copy" onClick={() => void shareProfile()}>copiar link</button></>}</span><button className="button button--primary" disabled={saving || !hasChanges}>{saving ? 'Salvando…' : hasChanges ? 'Salvar perfil' : 'Tudo salvo'}</button></footer>
   </div>
 
-  <aside className="profile-preview-panel"><div className="preview-label"><span>Prévia ao vivo</span><small>As alterações de texto aparecem aqui antes de salvar.</small></div><div className="profile-mini" style={profilePreviewStyle}><div className="profile-mini__banner" style={bannerSrc ? { backgroundImage: `linear-gradient(120deg,color-mix(in srgb, var(--profile-accent-contrast) 48%, transparent),transparent),url(${bannerSrc})` } : undefined}/><div className="profile-mini__content"><div className="profile-mini__avatar">{avatarSrc ? <img src={avatarSrc} alt=""/> : initials(form.displayName || user?.name || 'C')}</div><h2>{form.displayName || 'Seu nome'}</h2><strong>{form.roleTitle || 'Seu título profissional'}</strong><p>{form.bio || 'Sua biografia aparecerá aqui.'}</p><div className="profile-mini__stats"><span><b>{statsView.courses}</b>cursos</span><span><b>{statsView.hours}</b>estudadas</span><span><b>{statsView.institutions}</b>instituições</span></div></div></div><a className="preview-open" href={publicUrl} target="_blank" rel="noreferrer">Abrir perfil em nova guia <Icon name="external" size={15}/></a></aside>
+  <aside className={`profile-preview-panel profile-preview-panel--${previewDevice}`}><div className="preview-label"><div><span>Prévia ao vivo</span><small>Confira desktop, tablet e celular antes de publicar.</small></div><div className="preview-device-switch" aria-label="Tamanho da prévia">{(['desktop', 'tablet', 'mobile'] as const).map((device) => <button type="button" key={device} className={previewDevice === device ? 'selected' : ''} onClick={() => setPreviewDevice(device)} aria-label={`Prévia ${device}`}>{device === 'desktop' ? 'Desktop' : device === 'tablet' ? 'Tablet' : 'Celular'}</button>)}</div></div><div className="profile-preview-stage"><div className={`profile-mini profile-mini--${previewDevice}`} style={profilePreviewStyle}><div className="profile-mini__banner">{bannerSrc ? <img className="profile-banner-image" src={bannerSrc} alt="" style={bannerImageStyle}/> : null}</div><div className="profile-mini__content"><div className="profile-mini__avatar">{avatarSrc ? <img src={avatarSrc} alt=""/> : initials(form.displayName || user?.name || 'C')}</div><h2>{form.displayName || 'Seu nome'}</h2><strong>{form.roleTitle || 'Seu título profissional'}</strong><p>{form.bio || 'Sua biografia aparecerá aqui.'}</p><div className="profile-mini__stats"><span><b>{statsView.courses}</b>cursos</span><span><b>{statsView.hours}</b>estudadas</span><span><b>{statsView.institutions}</b>instituições</span></div></div></div></div><a className="preview-open" href={publicUrl} target="_blank" rel="noreferrer">Abrir perfil em nova guia <Icon name="external" size={15}/></a></aside>
   <ConfirmDialog open={Boolean(pendingRemove)} title={pendingRemove === 'avatar' ? 'Remover foto de perfil' : 'Remover banner'} description={pendingRemove === 'avatar' ? 'A foto atual será retirada do perfil. Suas iniciais serão usadas até uma nova imagem ser adicionada.' : 'O banner atual será removido e o perfil voltará a usar o fundo padrão.'} confirmLabel="Remover imagem" busy={Boolean(uploading)} onClose={() => !uploading && setPendingRemove(null)} onConfirm={() => void removeImage()}/>
   </form>;
 }
