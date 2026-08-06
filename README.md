@@ -1,106 +1,190 @@
+<div align="center">
+
 # Certifólio
 
-Aplicação full stack para organizar cursos, certificados, instituições, habilidades, metas de estudo e um portfólio público personalizável.
+**Todo curso conta. Faça ele aparecer.**
+
+Uma plataforma full stack para organizar cursos, certificados e metas de aprendizagem — e transformar tudo isso em um portfólio profissional, apresentável e personalizável.
+
+![React](https://img.shields.io/badge/React-19-20232a?logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020?logo=cloudflare&logoColor=white)
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-6C63FF)
+![Privacidade](https://img.shields.io/badge/privacidade-por%20padrão-198754)
+
+</div>
+
+---
+
+## Sobre o projeto
+
+O **Certifólio** centraliza a trajetória de aprendizagem de uma pessoa em um único lugar. Em vez de certificados espalhados, planilhas desatualizadas e pastas difíceis de apresentar, a plataforma reúne cursos, instituições, tecnologias, carga horária e objetivos em uma experiência organizada.
+
+O usuário mantém o controle sobre o que permanece privado e o que aparece em seu perfil público.
+
+## Principais recursos
+
+| Recurso | O que oferece |
+|---|---|
+| **Gestão de cursos** | Cadastro, edição, pesquisa, organização e recuperação de cursos excluídos. |
+| **Certificados protegidos** | Armazenamento de comprovantes com acesso controlado e privacidade por padrão. |
+| **Instituições automáticas** | Agrupamento dos cursos por instituição sem depender de pastas criadas manualmente. |
+| **Perfil público** | Página compartilhável para apresentar formação, tecnologias e trajetória profissional. |
+| **Personalização** | Foto, banner, identidade visual e preferências de aparência do perfil. |
+| **Metas de aprendizagem** | Criação de objetivos e acompanhamento do que deve ser estudado a seguir. |
+| **Compartilhamento seletivo** | Controle individual sobre a visibilidade de cursos e informações do perfil. |
+| **Conta e autenticação** | Cadastro, login, verificação de e-mail e recuperação segura de acesso. |
+
+## Princípios do produto
+
+- **Privado por padrão:** o usuário decide o que será publicado.
+- **Organização sem atrito:** cursos e instituições permanecem estruturados automaticamente.
+- **Apresentação profissional:** o perfil público foi pensado para recrutadores, escolas e clientes.
+- **Experiência responsiva:** navegação adaptada para diferentes tamanhos de tela.
+- **Segurança no servidor:** permissões e regras de negócio não dependem apenas da interface.
 
 ## Stack
 
-- React 19, Vite e TypeScript;
-- Cloudflare Workers e Hono;
-- Cloudflare D1 e Drizzle ORM;
-- Better Auth;
-- Cloudinary para arquivos privados;
-- Zod;
-- Resend, Google OAuth e Cloudflare Turnstile opcionais.
+| Camada | Tecnologias |
+|---|---|
+| **Interface** | React 19, TypeScript e Vite |
+| **API** | Hono executado em Cloudflare Workers |
+| **Banco de dados** | Cloudflare D1 e Drizzle ORM |
+| **Autenticação** | Better Auth |
+| **Validação** | Zod |
+| **Arquivos** | Cloudinary com acesso restrito |
+| **Integrações opcionais** | Resend, Google OAuth e Cloudflare Turnstile |
 
-## Estado da versão 1.0
+## Arquitetura
 
-O repositório foi preparado para publicação sem credenciais, banco local, dependências instaladas ou artefatos de build. Antes do primeiro deploy, siga [`CONFIGURACAO.md`](./CONFIGURACAO.md).
-
-> As credenciais que já tenham aparecido em ZIPs, mensagens ou commits anteriores devem ser revogadas e recriadas. Não reutilize segredos expostos.
-
-## Desenvolvimento local
-
-Requisitos: Node.js 22.12 ou superior e uma conta Cloudflare.
-
-```powershell
-npm ci
-Copy-Item .dev.vars.example .dev.vars
-npm run secrets:generate
+```text
+Navegador
+   │
+   ▼
+React + TypeScript
+   │
+   ▼
+Cloudflare Worker + Hono
+   ├── autenticação e autorização
+   ├── regras de negócio e validação
+   ├── Cloudflare D1 + Drizzle ORM
+   └── armazenamento protegido de mídia
 ```
 
-Copie os três valores gerados para `.dev.vars`, preencha o Cloudinary e execute:
+A interface nunca deve ser tratada como fronteira de segurança. As operações sensíveis são validadas novamente no servidor antes de acessar dados ou arquivos.
+
+## Estrutura do projeto
+
+```text
+certifolio/
+├── public/          # arquivos estáticos
+├── src/             # interface React
+├── worker/          # API, autenticação e regras de negócio
+├── migrations/      # evolução versionada do banco de dados
+├── scripts/         # validações e utilitários de manutenção
+├── package.json     # dependências e comandos do projeto
+└── wrangler.jsonc   # configuração não secreta do Worker
+```
+
+## Executando localmente
+
+### Requisitos
+
+- Node.js **22.12 ou superior**;
+- npm;
+- uma conta Cloudflare para recursos locais e implantação;
+- credenciais próprias para os serviços externos utilizados.
+
+### Instalação
+
+```bash
+git clone https://github.com/GabrielReguse/certifolio.git
+cd certifolio
+npm ci
+```
+
+Crie o arquivo local de ambiente a partir do modelo versionado:
 
 ```powershell
+Copy-Item .dev.vars.example .dev.vars
+```
+
+No Linux ou macOS:
+
+```bash
+cp .dev.vars.example .dev.vars
+```
+
+Preencha o arquivo somente com credenciais próprias. Nunca utilize valores reais em commits, capturas de tela, issues ou exemplos de documentação.
+
+Depois, execute:
+
+```bash
+npm run secrets:generate
 npm run config:check
-npm run cloudinary:check
 npm run db:migrate:local
 npm run dev
 ```
 
-Para criar as tabelas internas do Better Auth, altere temporariamente `ENABLE_SETUP=true` no `.dev.vars`, abra o servidor e execute em outro terminal:
+O ambiente de desenvolvimento será iniciado pelo Vite. Procedimentos de provisionamento administrativo e configuração de produção devem ser executados apenas por mantenedores autorizados.
 
-```powershell
-npm run auth:migrate
-```
-
-Depois volte `ENABLE_SETUP=false` e remova o valor local de `SETUP_KEY`.
-
-## Validação
-
-```powershell
-npm run typecheck
-npm run build
-npm run security:check
-```
-
-O comando abaixo limpa artefatos locais e confirma TypeScript + build:
-
-```powershell
-npm run prepare:repo
-```
-
-## Scripts principais
+## Scripts disponíveis
 
 | Comando | Finalidade |
 |---|---|
-| `npm run dev` | Desenvolvimento local |
-| `npm run build` | TypeScript e build de produção |
-| `npm run check` | Verificação completa de compilação |
-| `npm run config:check` | Validação do `.dev.vars` local |
-| `npm run config:check:production` | Validação do `wrangler.jsonc` |
-| `npm run cloudinary:check` | Teste das credenciais sem upload |
-| `npm run db:migrate:local` | Migrações do produto no D1 local |
-| `npm run db:migrate:remote` | Migrações do produto no D1 remoto |
-| `npm run auth:migrate` | Migrações internas do Better Auth |
-| `npm run deploy` | Validação, build e deploy |
+| `npm run dev` | Inicia o ambiente de desenvolvimento. |
+| `npm run build` | Executa a compilação TypeScript e gera o build de produção. |
+| `npm run preview` | Abre localmente o build gerado. |
+| `npm run typecheck` | Verifica os tipos sem iniciar a aplicação. |
+| `npm run check` | Executa as verificações principais de compilação. |
+| `npm run config:check` | Valida a configuração local sem revelar valores. |
+| `npm run cloudinary:check` | Confirma a integração de arquivos sem realizar upload. |
+| `npm run db:migrate:local` | Aplica as migrações no banco local. |
+| `npm run security:check` | Verifica dependências com vulnerabilidades relevantes. |
+| `npm run prepare:repo` | Limpa artefatos locais e valida o projeto. |
+| `npm run deploy` | Valida, compila e publica a aplicação. |
 
-## Segurança implementada
+## Segurança e privacidade
 
-- autorização por proprietário no servidor;
-- arquivos `authenticated` no Cloudinary;
-- URLs temporárias para downloads privados;
-- validação de MIME, assinatura mágica e tamanho;
-- limite atômico de 50 arquivos e 100 MB por conta;
-- bloqueio de uploads duplicados por checksum;
-- filas duráveis para exclusões externas e de conta, com novas tentativas;
-- rate limiting persistente no D1;
-- validação de origem em requisições mutáveis;
-- Content Security Policy e headers defensivos;
-- cookies seguros em HTTPS;
-- validação estrita com Zod;
-- hash HMAC de IP nos registros de auditoria;
-- retenção automática de auditoria por 365 dias;
-- verificação de e-mail obrigatória na configuração de produção;
-- rota de instalação desativada por padrão.
+O projeto adota práticas defensivas em diferentes camadas:
 
-## Estrutura
+- autorização baseada no proprietário do recurso;
+- acesso restrito a arquivos privados;
+- validação de entradas e uploads no servidor;
+- sessões protegidas e cookies seguros em produção;
+- limitação de requisições e proteção contra abuso;
+- cabeçalhos HTTP defensivos;
+- redução de dados sensíveis em registros de auditoria;
+- separação entre configuração pública e segredos de ambiente;
+- verificações automatizadas de tipos, build e dependências.
 
-```text
-src/            interface React
-worker/         API e regras de negócio
-migrations/     schema e evoluções do D1
-scripts/        validação e instalação
-public/         assets estáticos
-```
+Nenhuma credencial deve ser armazenada no código-fonte. Arquivos locais de ambiente, bancos de desenvolvimento, logs e artefatos temporários permanecem fora do controle de versão.
 
-Mais detalhes em [`ARQUITETURA.md`](./ARQUITETURA.md) e [`SECURITY.md`](./SECURITY.md).
+### Relatando vulnerabilidades
+
+Não publique credenciais, dados pessoais ou instruções de exploração em issues abertas. Relatos de segurança devem ser enviados por um **GitHub Security Advisory privado**, acompanhados do impacto e de passos mínimos para reprodução.
+
+## Estado do projeto
+
+O Certifólio está em **desenvolvimento ativo**. A arquitetura, a experiência visual e os recursos podem evoluir conforme novos testes e necessidades do produto.
+
+## Contribuições
+
+Sugestões e correções são bem-vindas. Antes de propor uma alteração estrutural, abra uma discussão ou issue explicando:
+
+1. o problema observado;
+2. o comportamento esperado;
+3. o impacto da mudança;
+4. como a solução foi validada.
+
+Pull requests devem manter a tipagem, o build e as verificações de segurança funcionando.
+
+## Autor
+
+Desenvolvido por **[Gabriel Reguse](https://github.com/GabrielReguse)**.
+
+---
+
+<div align="center">
+  <sub>Organize o que você aprendeu. Apresente o que você sabe.</sub>
+</div>
