@@ -1,6 +1,7 @@
 @import './tokens-base.css';
 @import './shared-auth.css';
 @import './application.css';
+@import './courses-filters.css';
 @import './responsive.css';
 @import './motion-polish.css';
 @import './performance-goals.css';
