@@ -1,56 +1,162 @@
-/* Keep the desktop profile hero tall enough for real names, titles and bios.
-   The previous 3:1 aspect ratio forced the cover to remain around 360px tall,
-   so taller identity cards were centered outside the cover and clipped. */
+/* Desktop public-profile hero.
+   The hero must stay compact: long profile text is summarized here instead of
+   forcing the banner to grow into a full-page wall. */
 @media (min-width: 721px) {
   .public-profile .public-cover {
     height: auto;
-    min-height: clamp(440px, 38vw, 520px);
+    min-height: clamp(390px, 31vw, 450px);
     aspect-ratio: auto;
-    align-items: stretch;
+    align-items: end;
+  }
+
+  .public-profile .public-cover::after {
+    background:
+      linear-gradient(90deg, rgba(7, 8, 11, .18) 0%, rgba(7, 8, 11, .08) 45%, rgba(7, 8, 11, .28) 100%),
+      linear-gradient(180deg, rgba(5, 5, 7, .04) 0%, rgba(5, 5, 7, .14) 48%, rgba(5, 5, 7, .68) 100%);
   }
 
   .public-profile .public-cover__content {
-    min-height: inherit;
+    min-height: clamp(390px, 31vw, 450px);
     box-sizing: border-box;
-    align-items: center;
-    padding-block: clamp(28px, 3vw, 42px);
+    grid-template-columns: minmax(0, 760px) minmax(250px, 300px);
+    justify-content: space-between;
+    align-items: end;
+    gap: clamp(20px, 3vw, 40px);
+    padding: clamp(26px, 3vw, 38px);
   }
 
-  .public-profile .public-person,
-  .public-profile .public-summary-card {
+  .public-profile .public-person {
+    width: 100%;
+    max-width: 760px;
+    align-self: end;
+    justify-self: start;
+    grid-template-columns: 104px minmax(0, 1fr);
+    align-items: center;
+    gap: 20px;
+    padding: 22px;
+    border-radius: 26px;
+    background: rgba(18, 19, 23, .58);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .16),
+      0 22px 52px rgba(0, 0, 0, .24);
+    -webkit-backdrop-filter: blur(20px) saturate(132%);
+    backdrop-filter: blur(20px) saturate(132%);
+  }
+
+  .public-profile .public-avatar {
+    width: 104px;
+    height: 104px;
     align-self: center;
+    border-width: 2px;
+    border-radius: 27px;
   }
 
   .public-profile .public-person__info {
     min-width: 0;
-    padding-block: 2px;
+    padding: 0;
+  }
+
+  .public-profile .public-person__info .eyebrow {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .public-profile .public-person h1 {
     max-width: 100%;
-    font-size: clamp(2.45rem, 4.25vw, 3.75rem);
-    line-height: .95;
+    margin: 7px 0 8px;
+    font-size: clamp(2.45rem, 3.65vw, 3.45rem);
+    line-height: .94;
+    letter-spacing: -.055em;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .public-profile .public-person strong {
+    display: block;
+    max-width: 44ch;
+    font-size: .92rem;
+    line-height: 1.28;
     overflow-wrap: anywhere;
   }
 
-  .public-profile .public-person strong,
   .public-profile .public-person p {
-    overflow-wrap: anywhere;
+    display: -webkit-box;
+    max-width: 57ch;
+    margin: 13px 0 0;
+    overflow: hidden;
+    font-size: .84rem;
+    line-height: 1.52;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+  }
+
+  .public-profile .public-meta {
+    margin-top: 13px;
+  }
+
+  .public-profile .public-summary-card {
+    width: 100%;
+    max-width: 300px;
+    align-self: end;
+    justify-self: end;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 22px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .18),
+      0 20px 46px rgba(0, 0, 0, .20);
+  }
+
+  .public-profile .public-summary-card strong {
+    font-size: 1.05rem;
+  }
+
+  .public-profile .public-summary-card p {
+    font-size: .75rem;
+    line-height: 1.45;
   }
 }
 
-/* At intermediate widths the text column narrows considerably, so the hero
-   receives extra vertical room instead of allowing the card to escape upward. */
-@media (min-width: 721px) and (max-width: 1000px) {
+/* The desktop composition tightens instead of getting taller at medium widths. */
+@media (min-width: 721px) and (max-width: 1050px) {
   .public-profile .public-cover {
-    min-height: 520px;
+    min-height: 430px;
   }
 
   .public-profile .public-cover__content {
-    grid-template-columns: minmax(0, 1fr) minmax(220px, 270px);
+    min-height: 430px;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 255px);
+    gap: 18px;
+    padding: 24px;
+  }
+
+  .public-profile .public-person {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 16px;
+    padding: 18px;
+  }
+
+  .public-profile .public-avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 23px;
   }
 
   .public-profile .public-person h1 {
-    font-size: clamp(2.3rem, 5vw, 3.2rem);
+    font-size: clamp(2.15rem, 4.5vw, 2.85rem);
+  }
+
+  .public-profile .public-person p {
+    font-size: .78rem;
+    -webkit-line-clamp: 3;
+  }
+
+  .public-profile .public-summary-card {
+    max-width: 255px;
+    padding: 17px;
   }
 }
