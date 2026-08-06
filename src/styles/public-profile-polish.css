@@ -199,15 +199,72 @@
   }
 }
 
+/* Complete mobile composition. */
 @media (max-width: 720px) {
+  .public-profile {
+    min-width: 320px;
+    overflow-x: hidden;
+    background:
+      radial-gradient(circle at 50% -5%, color-mix(in srgb, var(--profile-accent) 15%, transparent), transparent 32%),
+      var(--bg);
+  }
+
+  .public-profile .public-shell {
+    width: 100%;
+    padding: 0 0 calc(44px + env(safe-area-inset-bottom));
+  }
+
+  /* Compact mobile header with comfortable touch targets. */
+  .public-profile .public-nav {
+    min-height: 72px;
+    padding: max(10px, env(safe-area-inset-top)) 16px 10px;
+    gap: 12px;
+  }
+
   .public-profile .public-nav::after {
-    left: 22px;
-    right: 22px;
+    left: 16px;
+    right: 16px;
+  }
+
+  .public-profile .public-nav .brand {
+    min-width: 0;
+  }
+
+  .public-profile .public-nav .brand > span {
+    min-width: 0;
+  }
+
+  .public-profile .public-nav .brand strong {
+    font-size: .84rem;
+  }
+
+  .public-profile .public-nav .brand small {
+    display: none;
+  }
+
+  .public-profile .public-nav .button {
+    min-height: 40px;
+    flex: 0 0 auto;
+    padding: 0 14px;
+    border-radius: 13px;
+    font-size: .72rem;
+    white-space: nowrap;
+  }
+
+  /* The hero becomes a banner first and content card second. */
+  .public-profile .public-hero-card {
+    width: calc(100% - 24px);
+    margin: 12px auto 0;
+    overflow: hidden;
+    border-radius: 27px;
+    box-shadow: 0 22px 58px rgba(0, 0, 0, .24);
   }
 
   .public-profile .public-cover {
     min-height: 0;
     aspect-ratio: auto;
+    align-items: stretch;
+    padding-top: clamp(124px, 38vw, 170px);
     background-position: center top;
   }
 
@@ -215,22 +272,391 @@
     background-size: cover, cover;
   }
 
-  .public-profile .public-cover__content {
-    grid-template-columns: 1fr;
-    padding: 18px;
-    gap: 14px;
+  .public-profile .public-cover::after {
+    background: linear-gradient(
+      180deg,
+      rgba(5, 5, 7, .04) 0%,
+      rgba(5, 5, 7, .12) 24%,
+      rgba(5, 5, 7, .58) 56%,
+      rgba(5, 5, 7, .92) 100%
+    );
   }
 
+  .public-profile .public-cover__glow {
+    width: 210px;
+    height: 210px;
+    right: -80px;
+    bottom: -70px;
+    opacity: .62;
+  }
+
+  .public-profile .public-cover__content {
+    width: 100%;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 12px;
+    padding: 0 12px 14px;
+  }
+
+  /* Mobile identity card: avatar beside the first information block. */
   .public-profile .public-person {
     width: 100%;
     max-width: none;
-    padding: 18px;
+    grid-template-columns: 76px minmax(0, 1fr);
+    align-items: start;
+    gap: 14px;
+    padding: 16px;
     border-radius: 22px;
+    background: rgba(20, 21, 25, .58);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .14),
+      0 16px 38px rgba(0, 0, 0, .23);
+    -webkit-backdrop-filter: blur(18px) saturate(126%);
+    backdrop-filter: blur(18px) saturate(126%);
   }
 
+  .public-profile .public-avatar {
+    width: 76px;
+    height: 76px;
+    border-width: 1px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+  }
+
+  .public-profile .public-person__info {
+    min-width: 0;
+  }
+
+  .public-profile .public-person__info .eyebrow {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    font-size: .62rem;
+    letter-spacing: .08em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .public-profile .public-person h1 {
+    margin: 6px 0 5px;
+    font-size: clamp(1.72rem, 8vw, 2.25rem);
+    line-height: .98;
+    overflow-wrap: anywhere;
+  }
+
+  .public-profile .public-person strong {
+    display: block;
+    font-size: .78rem;
+    line-height: 1.35;
+  }
+
+  .public-profile .public-person p {
+    margin: 11px 0 0;
+    font-size: .76rem;
+    line-height: 1.55;
+  }
+
+  .public-profile .public-meta {
+    gap: 7px;
+    margin-top: 12px;
+  }
+
+  .public-profile .public-meta span,
+  .public-profile .public-meta a {
+    max-width: 100%;
+    min-height: 32px;
+    padding: 7px 10px;
+    font-size: .66rem;
+    overflow-wrap: anywhere;
+  }
+
+  /* Summary stays visually separate and uses the inverted palette. */
   .public-profile .public-summary-card {
     max-width: none;
     justify-self: stretch;
+    gap: 9px;
+    padding: 16px;
+    border-radius: 20px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .16),
+      0 14px 34px rgba(0, 0, 0, .18);
+  }
+
+  .public-profile .public-summary-card .eyebrow {
+    font-size: .62rem;
+  }
+
+  .public-profile .public-summary-card strong {
+    font-size: 1rem;
+  }
+
+  .public-profile .public-summary-card p {
+    font-size: .72rem;
+    line-height: 1.45;
+  }
+
+  .public-profile .public-summary-card__chips {
+    gap: 6px;
+  }
+
+  .public-profile .public-summary-card__chips span {
+    padding: 6px 8px;
+    font-size: .62rem;
+  }
+
+  /* A 2x2 stats dashboard is denser and more useful than four tall rows. */
+  .public-profile .public-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    padding: 12px;
+  }
+
+  .public-profile .public-stats article {
+    min-height: 106px;
+    padding: 14px;
+    border-radius: 18px;
+    gap: 6px;
+  }
+
+  .public-profile .public-stats small {
+    font-size: .59rem;
+    line-height: 1.35;
+    letter-spacing: .065em;
+  }
+
+  .public-profile .public-stats strong {
+    margin-top: auto;
+    font-size: clamp(1.24rem, 5.8vw, 1.58rem);
+    line-height: 1;
+    overflow-wrap: anywhere;
+  }
+
+  .public-profile .public-stats span {
+    font-size: .66rem;
+    line-height: 1.35;
+  }
+
+  /* Content section now aligns with the hero card. */
+  .public-profile .public-content {
+    width: calc(100% - 24px);
+    margin: 30px auto 0;
+  }
+
+  .public-profile .public-section-heading {
+    margin-bottom: 16px;
+    padding: 0 4px;
+  }
+
+  .public-profile .public-section-heading .eyebrow {
+    font-size: .63rem;
+    letter-spacing: .09em;
+  }
+
+  .public-profile .public-section-heading h2 {
+    margin: 8px 0 5px;
+    font-size: clamp(1.65rem, 8vw, 2.15rem);
+    line-height: 1.02;
+  }
+
+  .public-profile .public-section-heading p {
+    font-size: .76rem;
+    line-height: 1.5;
+  }
+
+  .public-profile .public-course-grid,
+  .public-profile .public-course-grid--grid,
+  .public-profile .public-course-grid--resume {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .public-profile .public-course-grid article {
+    min-width: 0;
+    padding: 18px;
+    border-radius: 21px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .10);
+    transform: none;
+  }
+
+  .public-profile .public-course-grid article:hover,
+  .public-profile .public-course-grid article:focus-within {
+    transform: none;
+  }
+
+  .public-profile .public-course-top {
+    gap: 10px;
+  }
+
+  .public-profile .course-symbol {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+    border-radius: 13px;
+  }
+
+  .public-profile .public-course-grid article h3 {
+    margin: 14px 0 6px;
+    font-size: 1.08rem;
+    line-height: 1.24;
+    overflow-wrap: anywhere;
+  }
+
+  .public-profile .public-course-grid article > p {
+    margin-bottom: 12px;
+    font-size: .72rem;
+    line-height: 1.45;
+  }
+
+  .public-profile .public-course-description {
+    font-size: .75rem;
+    line-height: 1.55;
+  }
+
+  .public-profile .chip-row {
+    gap: 6px;
+  }
+
+  .public-profile .chip-row span {
+    max-width: 100%;
+    padding: 6px 8px;
+    font-size: .62rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .public-profile .public-course-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .public-profile .public-course-actions a {
+    min-height: 38px;
+    justify-content: center;
+    padding: 8px 10px;
+    border: 1px solid color-mix(in srgb, var(--profile-accent) 24%, var(--line));
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--profile-accent) 7%, transparent);
+    font-size: .68rem;
+    text-align: center;
+  }
+
+  .public-profile .public-footer {
+    width: calc(100% - 32px);
+    min-height: 92px;
+    margin: 34px auto 0;
+    padding: 20px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 16px;
+    text-align: center;
+  }
+
+  .public-profile .public-footer span {
+    width: 100%;
+    font-size: .68rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .public-profile .public-nav {
+    padding-inline: 12px;
+  }
+
+  .public-profile .public-nav::after {
+    left: 12px;
+    right: 12px;
+  }
+
+  .public-profile .public-nav .button {
+    min-height: 38px;
+    padding-inline: 11px;
+    font-size: .67rem;
+  }
+
+  .public-profile .public-hero-card,
+  .public-profile .public-content {
+    width: calc(100% - 16px);
+  }
+
+  .public-profile .public-cover {
+    padding-top: clamp(112px, 40vw, 148px);
+  }
+
+  .public-profile .public-cover__content {
+    padding-inline: 8px;
+    padding-bottom: 10px;
+  }
+
+  .public-profile .public-person {
+    grid-template-columns: 66px minmax(0, 1fr);
+    gap: 12px;
+    padding: 14px;
+    border-radius: 19px;
+  }
+
+  .public-profile .public-avatar {
+    width: 66px;
+    height: 66px;
+    border-radius: 17px;
+  }
+
+  .public-profile .public-person h1 {
+    font-size: clamp(1.48rem, 8.1vw, 1.95rem);
+  }
+
+  .public-profile .public-person strong {
+    font-size: .72rem;
+  }
+
+  .public-profile .public-person p {
+    font-size: .72rem;
+  }
+
+  .public-profile .public-summary-card {
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .public-profile .public-stats {
+    gap: 7px;
+    padding: 8px;
+  }
+
+  .public-profile .public-stats article {
+    min-height: 100px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .public-profile .public-stats strong {
+    font-size: clamp(1.12rem, 5.7vw, 1.42rem);
+  }
+
+  .public-profile .public-course-grid article {
+    padding: 16px;
+    border-radius: 19px;
+  }
+}
+
+@media (max-width: 360px) {
+  .public-profile .public-nav .brand small,
+  .public-profile .public-nav .brand > span span {
+    display: none;
+  }
+
+  .public-profile .public-nav .button {
+    padding-inline: 9px;
+    font-size: .63rem;
+  }
+
+  .public-profile .public-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .public-profile .public-stats article {
+    min-height: 88px;
   }
 }
 
