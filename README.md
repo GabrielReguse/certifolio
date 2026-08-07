@@ -10,11 +10,15 @@ Uma plataforma full stack para organizar cursos, certificados e metas de aprendi
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
 ![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020?logo=cloudflare&logoColor=white)
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-6C63FF)
-![Privacidade](https://img.shields.io/badge/privacidade-por%20padrão-198754)
+![Copyright](https://img.shields.io/badge/copyright-all%20rights%20reserved-111111)
 
 </div>
 
 ---
+
+> [!IMPORTANT]
+> **Código disponibilizado publicamente somente para visualização, avaliação técnica e apresentação em portfólio.**
+> O fato de este repositório ser público não concede permissão para copiar, modificar, redistribuir, republicar, incorporar o código em outros projetos ou utilizá-lo comercialmente. © 2026 Gabriel Reguse da Silva. Todos os direitos reservados.
 
 ## Sobre o projeto
 
@@ -86,64 +90,6 @@ certifolio/
 └── wrangler.jsonc   # configuração não secreta do Worker
 ```
 
-## Executando localmente
-
-### Requisitos
-
-- Node.js **22.12 ou superior**;
-- npm;
-- uma conta Cloudflare para recursos locais e implantação;
-- credenciais próprias para os serviços externos utilizados.
-
-### Instalação
-
-```bash
-git clone https://github.com/GabrielReguse/certifolio.git
-cd certifolio
-npm ci
-```
-
-Crie o arquivo local de ambiente a partir do modelo versionado:
-
-```powershell
-Copy-Item .dev.vars.example .dev.vars
-```
-
-No Linux ou macOS:
-
-```bash
-cp .dev.vars.example .dev.vars
-```
-
-Preencha o arquivo somente com credenciais próprias. Nunca utilize valores reais em commits, capturas de tela, issues ou exemplos de documentação.
-
-Depois, execute:
-
-```bash
-npm run secrets:generate
-npm run config:check
-npm run db:migrate:local
-npm run dev
-```
-
-O ambiente de desenvolvimento será iniciado pelo Vite. Procedimentos de provisionamento administrativo e configuração de produção devem ser executados apenas por mantenedores autorizados.
-
-## Scripts disponíveis
-
-| Comando | Finalidade |
-|---|---|
-| `npm run dev` | Inicia o ambiente de desenvolvimento. |
-| `npm run build` | Executa a compilação TypeScript e gera o build de produção. |
-| `npm run preview` | Abre localmente o build gerado. |
-| `npm run typecheck` | Verifica os tipos sem iniciar a aplicação. |
-| `npm run check` | Executa as verificações principais de compilação. |
-| `npm run config:check` | Valida a configuração local sem revelar valores. |
-| `npm run cloudinary:check` | Confirma a integração de arquivos sem realizar upload. |
-| `npm run db:migrate:local` | Aplica as migrações no banco local. |
-| `npm run security:check` | Verifica dependências com vulnerabilidades relevantes. |
-| `npm run prepare:repo` | Limpa artefatos locais e valida o projeto. |
-| `npm run deploy` | Valida, compila e publica a aplicação. |
-
 ## Segurança e privacidade
 
 O projeto adota práticas defensivas em diferentes camadas:
@@ -168,16 +114,27 @@ Não publique credenciais, dados pessoais ou instruções de exploração em iss
 
 O Certifólio está em **desenvolvimento ativo**. A arquitetura, a experiência visual e os recursos podem evoluir conforme novos testes e necessidades do produto.
 
-## Contribuições
+## Direitos autorais e uso do código
 
-Sugestões e correções são bem-vindas. Antes de propor uma alteração estrutural, abra uma discussão ou issue explicando:
+**Copyright © 2026 Gabriel Reguse da Silva. Todos os direitos reservados.**
 
-1. o problema observado;
-2. o comportamento esperado;
-3. o impacto da mudança;
-4. como a solução foi validada.
+Este repositório é público para permitir a **visualização do projeto, avaliação técnica e apresentação em portfólio**. Nenhuma licença open source é concedida.
 
-Pull requests devem manter a tipagem, o build e as verificações de segurança funcionando.
+Sem autorização prévia e escrita do autor, não é permitido:
+
+- copiar ou reproduzir o código-fonte, integral ou parcialmente;
+- modificar, adaptar ou criar trabalhos derivados;
+- redistribuir ou republicar o projeto ou partes dele;
+- incorporar o código em outros projetos, produtos ou serviços;
+- sublicenciar, vender ou explorar comercialmente o código.
+
+Os direitos mínimos necessários ao funcionamento do próprio GitHub, incluindo visualização e fork de repositórios públicos dentro da plataforma, permanecem sujeitos aos Termos de Serviço do GitHub.
+
+Consulte o arquivo [`LICENSE`](./LICENSE) para o aviso completo de direitos autorais.
+
+## Feedback
+
+Sugestões sobre experiência, acessibilidade, segurança e qualidade do produto são bem-vindas por meio dos canais do repositório. A disponibilização pública do código não implica autorização para reutilização.
 
 ## Autor
 
@@ -186,5 +143,6 @@ Desenvolvido por **[Gabriel Reguse](https://github.com/GabrielReguse)**.
 ---
 
 <div align="center">
-  <sub>Organize o que você aprendeu. Apresente o que você sabe.</sub>
+  <sub>Organize o que você aprendeu. Apresente o que você sabe.</sub><br>
+  <sub>© 2026 Gabriel Reguse da Silva — All rights reserved.</sub>
 </div>
