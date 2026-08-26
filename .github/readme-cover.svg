@@ -1,37 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" role="img" aria-labelledby="title desc">
-<title id="title">Certifólio</title><desc id="desc">Frutiger Aero and Windows 8 inspired cover for Certifólio.</desc>
+<title id="title">Certifólio</title><desc id="desc">Windows 7 Aero and Frutiger Aero cover for Certifólio.</desc>
 <defs>
-  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#1c98df"/><stop offset=".62" stop-color="#79dcf7"/><stop offset="1" stop-color="#d8fbff"/></linearGradient>
-  <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#a9ef63"/><stop offset="1" stop-color="#4ab549"/></linearGradient>
-  <linearGradient id="blue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#3bc9ff"/><stop offset="1" stop-color="#0078d7"/></linearGradient>
-  <linearGradient id="green" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#9ce860"/><stop offset="1" stop-color="#36a84a"/></linearGradient>
-  <linearGradient id="orange" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffe06a"/><stop offset="1" stop-color="#f09a20"/></linearGradient>
-  <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff" stop-opacity=".72"/><stop offset="1" stop-color="#fff" stop-opacity=".15"/></linearGradient>
-  <filter id="s"><feDropShadow dx="0" dy="11" stdDeviation="13" flood-color="#087599" flood-opacity=".3"/></filter>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#249dde"/><stop offset=".62" stop-color="#7bdcf7"/><stop offset="1" stop-color="#d8fbff"/></linearGradient>
+<linearGradient id="grass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b1f06e"/><stop offset="1" stop-color="#4bb34c"/></linearGradient>
+<linearGradient id="aero" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ecfbff"/><stop offset=".3" stop-color="#9edff8"/><stop offset=".65" stop-color="#4da8da"/><stop offset="1" stop-color="#1b7db8"/></linearGradient>
+<linearGradient id="btn" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f5fcff"/><stop offset=".5" stop-color="#91cce8"/><stop offset="1" stop-color="#448eb7"/></linearGradient>
+<linearGradient id="close" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffd3cb"/><stop offset=".42" stop-color="#ee725c"/><stop offset="1" stop-color="#b82d19"/></linearGradient>
+<linearGradient id="blue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6ddcff"/><stop offset="1" stop-color="#0a83c8"/></linearGradient>
+<linearGradient id="green" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b6ef76"/><stop offset="1" stop-color="#44aa4d"/></linearGradient>
+<filter id="s"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#15566f" flood-opacity=".3"/></filter>
 </defs>
-<rect width="1200" height="440" rx="30" fill="url(#sky)"/>
-<circle cx="1080" cy="65" r="64" fill="#fff8b6" opacity=".78"/><circle cx="1130" cy="130" r="32" fill="url(#glass)" stroke="#fff" stroke-opacity=".6"/><circle cx="1094" cy="165" r="14" fill="url(#glass)" stroke="#fff" stroke-opacity=".6"/>
-<path d="M0 342C171 298 310 307 445 344C601 387 748 362 902 330C1023 305 1101 310 1200 330V440H0Z" fill="url(#grass)"/>
-<g filter="url(#s)">
-  <rect x="54" y="56" width="548" height="272" rx="22" fill="#fff" fill-opacity=".22" stroke="#fff" stroke-opacity=".7"/>
-  <rect x="54" y="56" width="548" height="84" rx="22" fill="url(#glass)" opacity=".55"/>
-</g>
-<g font-family="Segoe UI,Arial,sans-serif" fill="#fff">
-  <text x="86" y="102" font-size="14" font-weight="800" letter-spacing="3">CERTIFÓLIO / FULL-STACK PRODUCT</text>
-  <text x="83" y="178" font-size="58" font-weight="700">Certifólio</text>
-  <text x="86" y="221" font-size="22" font-weight="600">Every course counts. Make it visible.</text>
-  <text x="86" y="259" font-size="15">Courses · certificates · goals · public profile</text>
-  <text x="86" y="290" font-size="14" opacity=".92">React 19 · TypeScript · Hono · Cloudflare · D1 · Drizzle</text>
-</g>
-<g filter="url(#s)" font-family="Segoe UI,Arial,sans-serif">
-  <rect x="640" y="68" width="198" height="128" rx="11" fill="url(#blue)"/><rect x="852" y="68" width="132" height="128" rx="11" fill="url(#green)"/><rect x="998" y="68" width="148" height="128" rx="11" fill="url(#orange)"/>
-  <g fill="url(#glass)" opacity=".55"><rect x="640" y="68" width="198" height="48" rx="11"/><rect x="852" y="68" width="132" height="48" rx="11"/><rect x="998" y="68" width="148" height="48" rx="11"/></g>
-  <g fill="#fff"><text x="665" y="112" font-size="13" font-weight="800">COURSES</text><text x="665" y="158" font-size="30" font-weight="700">organized</text><text x="875" y="112" font-size="13" font-weight="800">FILES</text><text x="875" y="158" font-size="24" font-weight="700">private</text><text x="1020" y="112" font-size="13" font-weight="800">PROFILE</text><text x="1020" y="158" font-size="22" font-weight="700">public</text></g>
-  <rect x="640" y="212" width="506" height="108" rx="14" fill="#fff" fill-opacity=".8" stroke="#fff"/>
-</g>
-<g font-family="Segoe UI,Arial,sans-serif" fill="#0b5674">
-  <circle cx="680" cy="266" r="20" fill="#47b94c"/><text x="671" y="273" fill="#fff" font-size="20" font-weight="800">✓</text>
-  <text x="716" y="250" font-size="16" font-weight="700">React &amp; TypeScript course</text><text x="716" y="275" font-size="13">Certificate protected · 24h · visible on profile</text>
-  <rect x="974" y="246" width="138" height="34" rx="17" fill="#2fa6dc"/><text x="997" y="268" fill="#fff" font-size="12" font-weight="700">SHARE PROFILE</text>
-</g>
+<rect width="1200" height="440" rx="14" fill="url(#sky)"/><circle cx="1085" cy="64" r="54" fill="#fff5a9" opacity=".85"/><path d="M0 350C180 300 320 312 456 350C610 393 765 365 918 335C1035 312 1110 315 1200 334V440H0Z" fill="url(#grass)"/>
+<g filter="url(#s)"><rect x="24" y="20" width="1152" height="392" rx="12" fill="#f8fbfd" fill-opacity=".96"/></g>
+<rect x="21" y="17" width="1158" height="398" rx="13" fill="none" stroke="#0b6fa8" stroke-width="6"/><rect x="25" y="21" width="1150" height="390" rx="10" fill="none" stroke="#d4f4ff" stroke-width="1.5"/>
+<path d="M31 21H1169Q1175 21 1175 27V58H25V27Q25 21 31 21Z" fill="url(#aero)"/><path d="M31 23H1169" stroke="#fff" stroke-width="2" opacity=".75"/>
+<text x="43" y="45" font-family="Segoe UI,Arial,sans-serif" font-size="14" font-weight="600" fill="#0a4261">Certifólio — Learning Portfolio</text>
+<g transform="translate(1013 22)"><g><rect width="47" height="28" rx="2" fill="url(#btn)" stroke="#2c7097"/><path d="M17 19h13" stroke="#fff" stroke-width="2"/><path d="M17 18h13" stroke="#2b5c78"/></g><g transform="translate(48)"><rect width="47" height="28" rx="2" fill="url(#btn)" stroke="#2c7097"/><rect x="17" y="8" width="13" height="11" fill="none" stroke="#fff" stroke-width="2"/><rect x="18" y="9" width="11" height="9" fill="none" stroke="#2b5c78"/></g><g transform="translate(96)"><rect width="59" height="28" rx="2" fill="url(#close)" stroke="#9e2618"/><path d="M22 8l15 12M37 8L22 20" stroke="#fff" stroke-width="2.2"/></g></g>
+<rect x="25" y="58" width="1150" height="48" fill="#eef6fa" stroke="#abc2d0"/>
+<circle cx="48" cy="82" r="12" fill="#f5fafc" stroke="#7ea7bd"/><path d="M52 76l-7 6 7 6" fill="none" stroke="#2b729c" stroke-width="2.3"/>
+<rect x="73" y="67" width="628" height="31" rx="3" fill="#fff" stroke="#7fa7bc"/><text x="89" y="88" font-family="Segoe UI,Arial,sans-serif" font-size="13" fill="#405767">GabrielReguse  ›  Products  ›  Certifólio</text>
+<rect x="821" y="67" width="329" height="31" rx="3" fill="#fff" stroke="#7fa7bc"/><text x="839" y="88" font-family="Segoe UI,Arial,sans-serif" font-size="13" fill="#8a9aa5">Search Certifólio</text>
+<g font-family="Segoe UI,Arial,sans-serif"><text x="62" y="157" font-size="52" font-weight="700" fill="#245d87">Certifólio</text><text x="64" y="193" font-size="21" font-weight="600" fill="#3e667c">Every course counts. Make it visible.</text><text x="64" y="231" font-size="15" fill="#526b79">Courses · certificates · goals · institutions · public profile</text><text x="64" y="260" font-size="14" fill="#71828d">React 19 · TypeScript · Hono · Cloudflare Workers · D1 · Drizzle</text></g>
+<g font-family="Segoe UI,Arial,sans-serif"><rect x="625" y="137" width="500" height="195" rx="7" fill="#fff" stroke="#c4d7e2"/><circle cx="684" cy="194" r="34" fill="url(#blue)"/><text x="664" y="201" fill="#fff" font-size="22" font-weight="700">24</text><text x="736" y="178" font-size="18" font-weight="600" fill="#245d87">Courses organized</text><text x="736" y="204" font-size="14" fill="#405766">Certificates protected by default</text><rect x="650" y="242" width="205" height="62" rx="6" fill="#f5fbfe" stroke="#c8dde8"/><circle cx="680" cy="273" r="18" fill="url(#green)"/><text x="673" y="280" fill="#fff" font-size="16" font-weight="700">✓</text><text x="713" y="264" font-size="14" font-weight="600" fill="#245d87">Public profile</text><text x="713" y="286" font-size="12" fill="#657b88">Share only what matters</text><rect x="872" y="242" width="227" height="62" rx="6" fill="#f5fbfe" stroke="#c8dde8"/><text x="895" y="266" font-size="14" font-weight="600" fill="#245d87">Privacy first</text><text x="895" y="287" font-size="12" fill="#657b88">Server-side ownership checks</text></g>
+<rect x="25" y="370" width="1150" height="41" fill="#edf5f9" stroke="#c5d6df"/><text x="45" y="396" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#607786">Full-stack product · active development · portfolio-oriented public repository</text>
 </svg>
