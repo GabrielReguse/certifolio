@@ -1,61 +1,56 @@
 <p align="center">
-  <img src="./.github/readme-cover.svg" width="100%" alt="Certifólio — Todo curso conta. Faça ele aparecer." />
+  <img src="./.github/readme-cover.svg" width="100%" alt="Certifólio — every course counts" />
 </p>
 
 <p align="center">
-  <a href="./ARQUITETURA.md">Architecture</a>
-  &nbsp;&nbsp;·&nbsp;&nbsp;
-  <a href="./CONFIGURACAO.md">Setup</a>
-  &nbsp;&nbsp;·&nbsp;&nbsp;
-  <a href="./SECURITY.md">Security</a>
-  &nbsp;&nbsp;·&nbsp;&nbsp;
-  <a href="./CHANGELOG.md">Changelog</a>
+  <a href="./ARQUITETURA.md"><b>Architecture</b></a>
+  &nbsp;&nbsp;•&nbsp;&nbsp;
+  <a href="./CONFIGURACAO.md"><b>Setup</b></a>
+  &nbsp;&nbsp;•&nbsp;&nbsp;
+  <a href="./SECURITY.md"><b>Security</b></a>
+  &nbsp;&nbsp;•&nbsp;&nbsp;
+  <a href="./CHANGELOG.md"><b>Changelog</b></a>
 </p>
 
 <br>
 
-## Por que isso existe
+> [!IMPORTANT]
+> This repository is public for **portfolio presentation and technical evaluation**. It does not grant an open-source license or permission to copy, modify, redistribute or commercially reuse the code. See [`LICENSE`](./LICENSE).
 
-Certificados costumam terminar espalhados entre pastas, e-mails, plataformas de curso e links que ninguém lembra onde salvou.
+## What it is
 
-O **Certifólio** é a minha tentativa de transformar essa bagunça em uma trajetória de aprendizagem que seja fácil de organizar, privada quando precisa ser e apresentável quando vale a pena mostrar.
+**Certifólio** is a full-stack product for turning scattered courses, certificates and learning goals into a structured learning history and a professional public profile.
 
-Não é só um catálogo de certificados. O produto conecta **cursos, instituições, tecnologias, metas e perfil público** em uma experiência única.
-
-<br>
-
-## O produto em 30 segundos
+The product is built around a simple rule: **private by default, presentable when the user decides to share it**.
 
 <table>
 <tr>
-<td width="50%" valign="top">
+<td width="25%" valign="top">
 
-### Organizar
+### Courses
 
-Cadastro, edição, busca e agrupamento de cursos por instituição, sem depender de pastas montadas manualmente.
-
-</td>
-<td width="50%" valign="top">
-
-### Proteger
-
-Certificados e dados sensíveis ficam privados por padrão, com validação e autorização também no servidor.
+Create, edit, search, restore and organize completed learning in one place.
 
 </td>
-</tr>
-<tr>
-<td width="50%" valign="top">
+<td width="25%" valign="top">
 
-### Mostrar
+### Certificates
 
-Perfil público compartilhável para transformar cursos concluídos em uma trajetória profissional legível.
+Store proof files behind authenticated, owner-aware access instead of exposing raw URLs.
 
 </td>
-<td width="50%" valign="top">
+<td width="25%" valign="top">
 
-### Continuar
+### Public profile
 
-Metas de aprendizagem ajudam a registrar o que vem depois, em vez de tratar formação como uma lista encerrada.
+Turn selected courses, institutions and technologies into a shareable professional page.
+
+</td>
+<td width="25%" valign="top">
+
+### Learning goals
+
+Keep track of what should come next instead of treating completed courses as the end of the path.
 
 </td>
 </tr>
@@ -63,75 +58,120 @@ Metas de aprendizagem ajudam a registrar o que vem depois, em vez de tratar form
 
 <br>
 
+## Product principles
+
+| Principle | What it means in practice |
+|---|---|
+| **Privacy first** | Visibility is explicit and controlled by the owner of each resource. |
+| **Less manual organization** | Institutions and learning data stay structured without relying on user-made folder systems. |
+| **Portfolio quality** | Public presentation is treated as a product surface, not as a database dump. |
+| **Responsive by design** | The interface is designed to work from mobile to desktop. |
+| **Server-side trust boundary** | Sensitive rules are validated again in the API instead of trusting the browser. |
+
 ## Stack
 
-| Camada | Tecnologia |
-| --- | --- |
-| Interface | React 19 · TypeScript · Vite |
-| API | Hono · Cloudflare Workers |
-| Dados | Cloudflare D1 · Drizzle ORM |
-| Auth | Better Auth |
-| Validação | Zod |
-| Arquivos | Cloudinary |
-| Integrações | Resend · Google OAuth · Turnstile |
+<table>
+<tr>
+<td width="25%" valign="top">
 
-<br>
+### Interface
 
-## Como as peças se encaixam
+React 19  
+TypeScript 5  
+Vite
+
+</td>
+<td width="25%" valign="top">
+
+### API
+
+Hono  
+Cloudflare Workers  
+Zod
+
+</td>
+<td width="25%" valign="top">
+
+### Data & auth
+
+Cloudflare D1  
+Drizzle ORM  
+Better Auth
+
+</td>
+<td width="25%" valign="top">
+
+### Files & integrations
+
+Cloudinary  
+Resend  
+Google OAuth  
+Cloudflare Turnstile
+
+</td>
+</tr>
+</table>
+
+## Architecture
 
 ```text
-browser
-   │
-   ▼
+Browser
+  │
+  ▼
 React + TypeScript
-   │
-   ▼
+  │
+  ▼
 Cloudflare Worker + Hono
-   ├── auth + authorization
-   ├── validation + business rules
-   ├── D1 + Drizzle
-   └── protected media access
+  ├─ authentication / authorization
+  ├─ business rules / validation
+  ├─ Cloudflare D1 + Drizzle ORM
+  └─ protected media access
 ```
 
-A interface **não é tratada como fronteira de segurança**. Operações sensíveis são validadas novamente no servidor antes de acessar dados ou arquivos.
+The interface is never treated as a security boundary. Sensitive operations are checked on the server before data or files are returned.
 
-A visão mais completa está em [`ARQUITETURA.md`](./ARQUITETURA.md).
+For the longer architecture notes, see [`ARQUITETURA.md`](./ARQUITETURA.md).
 
-<br>
+## Security & privacy
 
-## Princípios do produto
+The repository includes defensive measures across several layers:
 
-**Privado por padrão.** O usuário escolhe o que aparece publicamente.  
-**Organização sem atrito.** A estrutura deve trabalhar pelo usuário, não o contrário.  
-**Apresentação de verdade.** O perfil público precisa ser útil para recrutadores, escolas e clientes.  
-**Responsivo por definição.** A experiência não pode depender de um único tamanho de tela.  
-**Segurança no servidor.** Regra importante não pode existir só no front-end.
+- owner-based authorization for protected resources;
+- restricted access to private certificate files;
+- server-side validation for inputs and uploads;
+- secure production session/cookie settings;
+- request limiting and abuse protection;
+- defensive HTTP headers;
+- lower exposure of sensitive data in logs;
+- environment-based secret handling;
+- automated type, build and dependency checks.
 
-<br>
+Security reports should use a **private GitHub Security Advisory**, not a public issue. See [`SECURITY.md`](./SECURITY.md).
 
-## Rodando localmente
+## Repository map
 
-A configuração completa de ambiente, banco, Cloudflare e integrações está documentada em [`CONFIGURACAO.md`](./CONFIGURACAO.md).
+```text
+certifolio/
+├── public/          static assets and brand files
+├── src/             React interface
+├── worker/          API, auth and business rules
+├── migrations/      versioned database changes
+├── scripts/         maintenance and validation utilities
+├── package.json     dependencies and scripts
+└── wrangler.jsonc   non-secret Worker configuration
+```
 
-O repositório também mantém migrações versionadas, scripts de validação e documentação separada para arquitetura, segurança e histórico de mudanças.
+## Running locally
 
-<br>
+The complete environment and local setup guide lives in [`CONFIGURACAO.md`](./CONFIGURACAO.md). The repository includes example environment files; real credentials should never be committed.
 
-## Estado
+## Status
 
-O Certifólio está em **desenvolvimento ativo**. Fluxos, arquitetura e decisões visuais ainda podem evoluir conforme o produto é testado e refinado.
-
-<br>
-
-## Segurança e uso do código
-
-Relatos de vulnerabilidade devem seguir [`SECURITY.md`](./SECURITY.md) e, quando necessário, usar um **GitHub Security Advisory privado**.
-
-Este repositório é público para **visualização, avaliação técnica e portfólio**. Ele não concede licença open source. Consulte [`LICENSE`](./LICENSE) para os termos completos de uso e copyright.
+**Active development.** Product structure, visual design and features can change as the project is tested and refined.
 
 ---
 
 <p align="center">
-  <b>Organize o que você aprendeu. Apresente o que você sabe.</b><br>
-  <sub>© 2026 Gabriel Reguse da Silva</sub>
+  <b>Organize what you learned. Present what you know.</b><br>
+  <sub>© 2026 Gabriel Reguse da Silva · All rights reserved.</sub>
 </p>
