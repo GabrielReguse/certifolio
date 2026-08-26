@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" role="img" aria-labelledby="title desc">
+  <title id="title">Certifólio</title><desc id="desc">Editorial cover for the Certifólio repository.</desc>
+  <style>.bg{fill:#f4f0e8}.ink{fill:#12110f}.muted{fill:#6f685f}.line{stroke:#d4cbbd}.accent{fill:#ef4d23}text{font-family:Arial,Helvetica,sans-serif}@media(prefers-color-scheme:dark){.bg{fill:#10100f}.ink{fill:#f4f0e8}.muted{fill:#aaa199}.line{stroke:#312e2a}}</style>
+  <rect class="bg" width="1200" height="440" rx="20"/>
+  <path class="line" d="M42 70H1158M42 363H1158M823 70V363"/>
+  <text class="muted" x="42" y="47" font-size="12" font-weight="700" letter-spacing="2.5">CERTIFÓLIO / FULL-STACK PRODUCT / 2026</text>
+  <circle class="accent" cx="1137" cy="44" r="8"/>
+  <g transform="translate(42 106) scale(1.35)">
+    <path d="M9 16.5C17.7 17.4 25.6 21.1 30.6 27.8V48.2C25.2 42.8 18.1 40.4 9 40.2V16.5Z" class="ink"/>
+    <path d="M55 16.5C46.3 17.4 38.4 21.1 33.4 27.8V48.2C38.8 42.8 45.9 40.4 55 40.2V16.5Z" class="ink" opacity=".42"/>
+    <path d="M5.5 22.5H8V43.7C17.1 40.9 25.2 43.5 30.8 50.8C23.7 45.1 15 44.2 5.5 47.3V22.5Z" class="ink"/>
+    <path d="M58.5 22.5H56V43.7C46.9 40.9 38.8 43.5 33.2 50.8C40.3 45.1 49 44.2 58.5 47.3V22.5Z" class="ink"/>
+  </g>
+  <text class="ink" x="42" y="247" font-size="76" font-weight="800" letter-spacing="-4">Certifólio</text>
+  <text class="muted" x="42" y="294" font-size="20">Todo curso conta. Faça ele aparecer.</text>
+  <rect class="accent" x="42" y="319" width="292" height="34" rx="17"/>
+  <text x="60" y="341" fill="#fffaf3" font-size="11" font-weight="700" letter-spacing="1.5">ACTIVE DEVELOPMENT</text>
+  <text class="ink" x="860" y="128" font-size="16" font-weight="700" letter-spacing="1.4">ORGANIZE</text>
+  <text class="muted" x="860" y="156" font-size="15">courses · institutions</text>
+  <text class="ink" x="860" y="216" font-size="16" font-weight="700" letter-spacing="1.4">PROTECT</text>
+  <text class="muted" x="860" y="244" font-size="15">certificates · privacy</text>
+  <text class="ink" x="860" y="304" font-size="16" font-weight="700" letter-spacing="1.4">PRESENT</text>
+  <text class="muted" x="860" y="332" font-size="15">public learning profile</text>
+  <text class="muted" x="42" y="402" font-size="11" font-weight="700" letter-spacing="1.4">REACT 19 · TYPESCRIPT · HONO · CLOUDFLARE WORKERS · D1 · DRIZZLE</text>
+</svg>

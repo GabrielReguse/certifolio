@@ -1,148 +1,137 @@
-<div align="center">
+<p align="center">
+  <img src="./.github/readme-cover.svg" width="100%" alt="Certifólio — Todo curso conta. Faça ele aparecer." />
+</p>
 
-# Certifólio
+<p align="center">
+  <a href="./ARQUITETURA.md">Architecture</a>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="./CONFIGURACAO.md">Setup</a>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="./SECURITY.md">Security</a>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="./CHANGELOG.md">Changelog</a>
+</p>
 
-**Todo curso conta. Faça ele aparecer.**
+<br>
 
-Uma plataforma full stack para organizar cursos, certificados e metas de aprendizagem — e transformar tudo isso em um portfólio profissional, apresentável e personalizável.
+## Por que isso existe
 
-![React](https://img.shields.io/badge/React-19-20232a?logo=react&logoColor=61DAFB)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
-![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020?logo=cloudflare&logoColor=white)
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-6C63FF)
-![Copyright](https://img.shields.io/badge/copyright-all%20rights%20reserved-111111)
+Certificados costumam terminar espalhados entre pastas, e-mails, plataformas de curso e links que ninguém lembra onde salvou.
 
-</div>
+O **Certifólio** é a minha tentativa de transformar essa bagunça em uma trajetória de aprendizagem que seja fácil de organizar, privada quando precisa ser e apresentável quando vale a pena mostrar.
 
----
+Não é só um catálogo de certificados. O produto conecta **cursos, instituições, tecnologias, metas e perfil público** em uma experiência única.
 
-> [!IMPORTANT]
-> **Código disponibilizado publicamente somente para visualização, avaliação técnica e apresentação em portfólio.**
-> O fato de este repositório ser público não concede permissão para copiar, modificar, redistribuir, republicar, incorporar o código em outros projetos ou utilizá-lo comercialmente. © 2026 Gabriel Reguse da Silva. Todos os direitos reservados.
+<br>
 
-## Sobre o projeto
+## O produto em 30 segundos
 
-O **Certifólio** centraliza a trajetória de aprendizagem de uma pessoa em um único lugar. Em vez de certificados espalhados, planilhas desatualizadas e pastas difíceis de apresentar, a plataforma reúne cursos, instituições, tecnologias, carga horária e objetivos em uma experiência organizada.
+<table>
+<tr>
+<td width="50%" valign="top">
 
-O usuário mantém o controle sobre o que permanece privado e o que aparece em seu perfil público.
+### Organizar
 
-## Principais recursos
+Cadastro, edição, busca e agrupamento de cursos por instituição, sem depender de pastas montadas manualmente.
 
-| Recurso | O que oferece |
-|---|---|
-| **Gestão de cursos** | Cadastro, edição, pesquisa, organização e recuperação de cursos excluídos. |
-| **Certificados protegidos** | Armazenamento de comprovantes com acesso controlado e privacidade por padrão. |
-| **Instituições automáticas** | Agrupamento dos cursos por instituição sem depender de pastas criadas manualmente. |
-| **Perfil público** | Página compartilhável para apresentar formação, tecnologias e trajetória profissional. |
-| **Personalização** | Foto, banner, identidade visual e preferências de aparência do perfil. |
-| **Metas de aprendizagem** | Criação de objetivos e acompanhamento do que deve ser estudado a seguir. |
-| **Compartilhamento seletivo** | Controle individual sobre a visibilidade de cursos e informações do perfil. |
-| **Conta e autenticação** | Cadastro, login, verificação de e-mail e recuperação segura de acesso. |
+</td>
+<td width="50%" valign="top">
 
-## Princípios do produto
+### Proteger
 
-- **Privado por padrão:** o usuário decide o que será publicado.
-- **Organização sem atrito:** cursos e instituições permanecem estruturados automaticamente.
-- **Apresentação profissional:** o perfil público foi pensado para recrutadores, escolas e clientes.
-- **Experiência responsiva:** navegação adaptada para diferentes tamanhos de tela.
-- **Segurança no servidor:** permissões e regras de negócio não dependem apenas da interface.
+Certificados e dados sensíveis ficam privados por padrão, com validação e autorização também no servidor.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### Mostrar
+
+Perfil público compartilhável para transformar cursos concluídos em uma trajetória profissional legível.
+
+</td>
+<td width="50%" valign="top">
+
+### Continuar
+
+Metas de aprendizagem ajudam a registrar o que vem depois, em vez de tratar formação como uma lista encerrada.
+
+</td>
+</tr>
+</table>
+
+<br>
 
 ## Stack
 
-| Camada | Tecnologias |
-|---|---|
-| **Interface** | React 19, TypeScript e Vite |
-| **API** | Hono executado em Cloudflare Workers |
-| **Banco de dados** | Cloudflare D1 e Drizzle ORM |
-| **Autenticação** | Better Auth |
-| **Validação** | Zod |
-| **Arquivos** | Cloudinary com acesso restrito |
-| **Integrações opcionais** | Resend, Google OAuth e Cloudflare Turnstile |
+| Camada | Tecnologia |
+| --- | --- |
+| Interface | React 19 · TypeScript · Vite |
+| API | Hono · Cloudflare Workers |
+| Dados | Cloudflare D1 · Drizzle ORM |
+| Auth | Better Auth |
+| Validação | Zod |
+| Arquivos | Cloudinary |
+| Integrações | Resend · Google OAuth · Turnstile |
 
-## Arquitetura
+<br>
+
+## Como as peças se encaixam
 
 ```text
-Navegador
+browser
    │
    ▼
 React + TypeScript
    │
    ▼
 Cloudflare Worker + Hono
-   ├── autenticação e autorização
-   ├── regras de negócio e validação
-   ├── Cloudflare D1 + Drizzle ORM
-   └── armazenamento protegido de mídia
+   ├── auth + authorization
+   ├── validation + business rules
+   ├── D1 + Drizzle
+   └── protected media access
 ```
 
-A interface nunca deve ser tratada como fronteira de segurança. As operações sensíveis são validadas novamente no servidor antes de acessar dados ou arquivos.
+A interface **não é tratada como fronteira de segurança**. Operações sensíveis são validadas novamente no servidor antes de acessar dados ou arquivos.
 
-## Estrutura do projeto
+A visão mais completa está em [`ARQUITETURA.md`](./ARQUITETURA.md).
 
-```text
-certifolio/
-├── public/          # arquivos estáticos
-├── src/             # interface React
-├── worker/          # API, autenticação e regras de negócio
-├── migrations/      # evolução versionada do banco de dados
-├── scripts/         # validações e utilitários de manutenção
-├── package.json     # dependências e comandos do projeto
-└── wrangler.jsonc   # configuração não secreta do Worker
-```
+<br>
 
-## Segurança e privacidade
+## Princípios do produto
 
-O projeto adota práticas defensivas em diferentes camadas:
+**Privado por padrão.** O usuário escolhe o que aparece publicamente.  
+**Organização sem atrito.** A estrutura deve trabalhar pelo usuário, não o contrário.  
+**Apresentação de verdade.** O perfil público precisa ser útil para recrutadores, escolas e clientes.  
+**Responsivo por definição.** A experiência não pode depender de um único tamanho de tela.  
+**Segurança no servidor.** Regra importante não pode existir só no front-end.
 
-- autorização baseada no proprietário do recurso;
-- acesso restrito a arquivos privados;
-- validação de entradas e uploads no servidor;
-- sessões protegidas e cookies seguros em produção;
-- limitação de requisições e proteção contra abuso;
-- cabeçalhos HTTP defensivos;
-- redução de dados sensíveis em registros de auditoria;
-- separação entre configuração pública e segredos de ambiente;
-- verificações automatizadas de tipos, build e dependências.
+<br>
 
-Nenhuma credencial deve ser armazenada no código-fonte. Arquivos locais de ambiente, bancos de desenvolvimento, logs e artefatos temporários permanecem fora do controle de versão.
+## Rodando localmente
 
-### Relatando vulnerabilidades
+A configuração completa de ambiente, banco, Cloudflare e integrações está documentada em [`CONFIGURACAO.md`](./CONFIGURACAO.md).
 
-Não publique credenciais, dados pessoais ou instruções de exploração em issues abertas. Relatos de segurança devem ser enviados por um **GitHub Security Advisory privado**, acompanhados do impacto e de passos mínimos para reprodução.
+O repositório também mantém migrações versionadas, scripts de validação e documentação separada para arquitetura, segurança e histórico de mudanças.
 
-## Estado do projeto
+<br>
 
-O Certifólio está em **desenvolvimento ativo**. A arquitetura, a experiência visual e os recursos podem evoluir conforme novos testes e necessidades do produto.
+## Estado
 
-## Direitos autorais e uso do código
+O Certifólio está em **desenvolvimento ativo**. Fluxos, arquitetura e decisões visuais ainda podem evoluir conforme o produto é testado e refinado.
 
-**Copyright © 2026 Gabriel Reguse da Silva. Todos os direitos reservados.**
+<br>
 
-Este repositório é público para permitir a **visualização do projeto, avaliação técnica e apresentação em portfólio**. Nenhuma licença open source é concedida.
+## Segurança e uso do código
 
-Sem autorização prévia e escrita do autor, não é permitido:
+Relatos de vulnerabilidade devem seguir [`SECURITY.md`](./SECURITY.md) e, quando necessário, usar um **GitHub Security Advisory privado**.
 
-- copiar ou reproduzir o código-fonte, integral ou parcialmente;
-- modificar, adaptar ou criar trabalhos derivados;
-- redistribuir ou republicar o projeto ou partes dele;
-- incorporar o código em outros projetos, produtos ou serviços;
-- sublicenciar, vender ou explorar comercialmente o código.
-
-Os direitos mínimos necessários ao funcionamento do próprio GitHub, incluindo visualização e fork de repositórios públicos dentro da plataforma, permanecem sujeitos aos Termos de Serviço do GitHub.
-
-Consulte o arquivo [`LICENSE`](./LICENSE) para o aviso completo de direitos autorais.
-
-## Feedback
-
-Sugestões sobre experiência, acessibilidade, segurança e qualidade do produto são bem-vindas por meio dos canais do repositório. A disponibilização pública do código não implica autorização para reutilização.
-
-## Autor
-
-Desenvolvido por **[Gabriel Reguse](https://github.com/GabrielReguse)**.
+Este repositório é público para **visualização, avaliação técnica e portfólio**. Ele não concede licença open source. Consulte [`LICENSE`](./LICENSE) para os termos completos de uso e copyright.
 
 ---
 
-<div align="center">
-  <sub>Organize o que você aprendeu. Apresente o que você sabe.</sub><br>
-  <sub>© 2026 Gabriel Reguse da Silva — All rights reserved.</sub>
-</div>
+<p align="center">
+  <b>Organize o que você aprendeu. Apresente o que você sabe.</b><br>
+  <sub>© 2026 Gabriel Reguse da Silva</sub>
+</p>
