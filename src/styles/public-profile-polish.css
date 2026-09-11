@@ -1,12 +1,18 @@
-/* Public profile: the profile owner's theme and accent always win. */
+/* Public profile — polished, profile-owned visual system. */
 .public-profile {
   --accent-raw: var(--profile-accent-raw, var(--profile-accent));
   --accent: var(--profile-accent);
   --accent-strong: var(--profile-accent-strong, var(--profile-accent));
-  --accent-contrast: var(--profile-accent-contrast, #ffffff);
+  --accent-contrast: var(--profile-accent-contrast, #fff);
   --accent-contrast-rgb: var(--profile-accent-contrast-rgb, 255, 255, 255);
-  --accent-overlay: var(--profile-accent-overlay, rgba(9, 9, 12, .72));
-  --accent-overlay-strong: var(--profile-accent-overlay-strong, rgba(9, 9, 12, .82));
+  --accent-overlay: var(--profile-accent-overlay, rgba(10, 10, 13, .72));
+  --accent-overlay-strong: var(--profile-accent-overlay-strong, rgba(10, 10, 13, .86));
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 14% -6%, color-mix(in srgb, var(--profile-accent) 13%, transparent), transparent 31%),
+    radial-gradient(circle at 88% 20%, color-mix(in srgb, var(--profile-accent) 7%, transparent), transparent 24%),
+    var(--bg);
 }
 
 .public-profile .eyebrow,
@@ -17,221 +23,574 @@
   color: var(--profile-accent);
 }
 
-.public-profile .course-symbol {
-  background: color-mix(in srgb, var(--profile-accent) 13%, transparent);
+.public-profile .public-shell {
+  width: min(1220px, calc(100% - 40px));
+  margin: 0 auto;
+  padding-bottom: 80px;
 }
 
-.public-profile .public-course-grid article:hover,
-.public-profile .public-stats article:hover {
-  border-color: color-mix(in srgb, var(--profile-accent) 34%, var(--line));
-}
-
-/* The separator ends before the curved sides of the banner. */
+/* Header */
 .public-profile .public-nav {
   position: relative;
-  border-bottom: 0 !important;
+  min-height: 88px;
+  border-bottom: 0;
 }
 
 .public-profile .public-nav::after {
   content: '';
   position: absolute;
-  left: 34px;
-  right: 34px;
+  right: 0;
   bottom: 0;
+  left: 0;
   height: 1px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--line) 86%, transparent);
+  background: linear-gradient(90deg, transparent, var(--line) 12%, var(--line) 88%, transparent);
   pointer-events: none;
 }
 
-/* Banner keeps a stable wide proportion and preserves the uploaded image. */
+.public-profile .public-nav__actions {
+  gap: 10px;
+}
+
+.public-profile .public-nav .button--ghost {
+  min-height: 44px;
+  border-color: color-mix(in srgb, var(--profile-accent) 16%, var(--line));
+  background: color-mix(in srgb, var(--surface) 74%, transparent);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+}
+
+.public-profile .public-nav .button--ghost:hover {
+  border-color: color-mix(in srgb, var(--profile-accent) 42%, var(--line));
+  background: color-mix(in srgb, var(--profile-accent) 8%, var(--surface));
+}
+
+/* Hero */
+.public-profile .public-hero-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--profile-accent) 16%, var(--line));
+  border-radius: 32px;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, .16),
+    0 0 0 1px color-mix(in srgb, var(--profile-accent) 5%, transparent);
+}
+
 .public-profile .public-cover {
   isolation: isolate;
-  background-position: center center;
-  background-repeat: no-repeat;
+  min-height: clamp(440px, 40vw, 520px);
+  display: flex;
+  align-items: end;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 80% 10%, rgba(255, 255, 255, .16), transparent 25%),
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--profile-accent) 88%, #1a1b20),
+      color-mix(in srgb, var(--profile-accent) 42%, #08090c));
 }
 
-.public-profile .public-cover[style] {
-  background-size: cover, cover;
+.public-profile .public-cover__image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center;
+  filter: saturate(.92) contrast(1.02);
 }
 
-@media (min-width: 721px) {
-  .public-profile .public-cover {
-    min-height: 360px;
-    aspect-ratio: 3 / 1;
-  }
-
-  .public-profile .public-cover__content {
-    grid-template-columns: minmax(0, 640px) minmax(270px, 320px);
-    justify-content: space-between;
-    align-items: center;
-    gap: clamp(24px, 3vw, 42px);
-    padding: 32px 28px;
-  }
+.public-profile .public-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(6, 7, 10, .06) 0%, rgba(6, 7, 10, .16) 28%, rgba(6, 7, 10, .76) 100%),
+    linear-gradient(90deg, rgba(6, 7, 10, .28), transparent 52%, rgba(6, 7, 10, .14));
+  pointer-events: none;
 }
 
-/* Uniform liquid glass: one neutral tone, with no internal color interpolation. */
+.public-profile .public-cover__glow {
+  position: absolute;
+  right: -90px;
+  bottom: -150px;
+  z-index: 2;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--profile-accent) 28%, rgba(255, 255, 255, .20)), transparent 68%);
+  filter: blur(14px);
+  opacity: .76;
+  pointer-events: none;
+}
+
+.public-profile .public-cover__content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(275px, 330px);
+  align-items: end;
+  gap: clamp(22px, 3vw, 44px);
+  padding: 34px;
+}
+
+/* Identity glass */
 .public-profile .public-person {
   position: relative;
   isolation: isolate;
-  width: min(100%, 640px);
-  justify-self: start;
+  width: min(100%, 670px);
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: end;
+  gap: 22px;
+  padding: 22px;
   overflow: hidden;
-  padding: 20px;
   border: 1px solid rgba(255, 255, 255, .17);
-  border-radius: 26px;
-  background: rgba(22, 22, 28, .46);
+  border-radius: 27px;
+  background:
+    linear-gradient(145deg, rgba(28, 29, 34, .62), rgba(18, 19, 23, .42));
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .15),
-    0 18px 42px rgba(0, 0, 0, .18);
-  -webkit-backdrop-filter: blur(18px) saturate(128%);
-  backdrop-filter: blur(18px) saturate(128%);
+    inset 0 1px 0 rgba(255, 255, 255, .17),
+    0 22px 54px rgba(0, 0, 0, .25);
+  backdrop-filter: blur(24px) saturate(138%);
+  -webkit-backdrop-filter: blur(24px) saturate(138%);
 }
 
-.public-profile .public-person::before,
-.public-profile .public-person::after {
-  content: none;
-  display: none;
-}
-
-.public-profile .public-person h1,
-.public-profile .public-person strong,
-.public-profile .public-person p,
-.public-profile .public-person .public-meta,
-.public-profile .public-person .public-meta a,
-.public-profile .public-person .public-meta span {
-  color: #ffffff;
-}
-
-.public-profile .public-person h1 {
-  text-shadow: 0 2px 14px rgba(0, 0, 0, .24);
-}
-
-.public-profile .public-person p {
-  color: rgba(255, 255, 255, .80);
-}
-
-.public-profile .public-person .eyebrow {
-  color: color-mix(in srgb, var(--profile-accent) 72%, #ffffff 28%);
-}
-
-.public-profile .public-person .public-meta a,
-.public-profile .public-person .public-meta span {
-  border: 1px solid rgba(255, 255, 255, .09);
-  background: rgba(12, 13, 17, .28);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+.public-profile .public-person::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(115deg, rgba(255, 255, 255, .08), transparent 34%, transparent 72%, rgba(255, 255, 255, .04));
+  pointer-events: none;
 }
 
 .public-profile .public-avatar {
   width: 112px;
   height: 112px;
-  border-width: 2px;
-  border-color: rgba(255, 255, 255, .58);
+  border: 2px solid rgba(255, 255, 255, .72);
   border-radius: 28px;
+  background: color-mix(in srgb, var(--profile-accent) 84%, #fff 16%);
   box-shadow:
-    0 10px 24px rgba(0, 0, 0, .18),
-    inset 0 1px 0 rgba(255, 255, 255, .16);
+    0 14px 34px rgba(0, 0, 0, .24),
+    inset 0 1px 0 rgba(255, 255, 255, .28);
 }
 
-/* The right panel is inverted relative to the owner's selected profile theme. */
-.public-profile--dark {
-  --public-summary-background: rgba(246, 246, 248, .88);
-  --public-summary-text: #101114;
-  --public-summary-text-rgb: 16, 17, 20;
-  --public-summary-border: rgba(255, 255, 255, .42);
+.public-profile .public-person__info {
+  min-width: 0;
 }
 
-.public-profile--light {
-  --public-summary-background: rgba(15, 16, 19, .88);
-  --public-summary-text: #ffffff;
-  --public-summary-text-rgb: 255, 255, 255;
-  --public-summary-border: rgba(15, 16, 19, .30);
+.public-profile .public-person .eyebrow {
+  color: color-mix(in srgb, var(--profile-accent) 72%, #fff 28%);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, .22);
 }
 
+.public-profile .public-person h1 {
+  max-width: 100%;
+  margin: 8px 0 8px;
+  color: #fff;
+  font-size: clamp(2.35rem, 4.7vw, 4.35rem);
+  line-height: .94;
+  letter-spacing: -.055em;
+  overflow-wrap: anywhere;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, .26);
+}
+
+.public-profile .public-person strong {
+  display: block;
+  color: rgba(255, 255, 255, .95);
+  font-size: .98rem;
+  line-height: 1.35;
+}
+
+.public-profile .public-person p {
+  max-width: 590px;
+  margin: 13px 0 0;
+  color: rgba(255, 255, 255, .78);
+  font-size: .9rem;
+  line-height: 1.58;
+}
+
+.public-profile .public-meta {
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.public-profile .public-meta span,
+.public-profile .public-meta a {
+  min-height: 34px;
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 255, 255, .10);
+  background: rgba(10, 11, 14, .34);
+  color: rgba(255, 255, 255, .90);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.public-profile .public-meta a:hover {
+  border-color: color-mix(in srgb, var(--profile-accent) 45%, rgba(255, 255, 255, .14));
+  color: #fff;
+}
+
+/* Summary — same material as identity, not a disconnected inverted card. */
 .public-profile .public-summary-card {
   width: 100%;
-  max-width: 320px;
+  max-width: 330px;
   justify-self: end;
-  color: var(--public-summary-text);
-  border-color: var(--public-summary-border);
-  background: var(--public-summary-background);
+  gap: 11px;
+  padding: 21px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 24px;
+  color: #fff;
+  background:
+    linear-gradient(150deg,
+      color-mix(in srgb, var(--profile-accent) 12%, rgba(22, 23, 28, .64)),
+      rgba(15, 16, 20, .48));
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .20),
-    0 18px 42px rgba(0, 0, 0, .18);
-  -webkit-backdrop-filter: blur(18px) saturate(135%);
-  backdrop-filter: blur(18px) saturate(135%);
+    inset 0 1px 0 rgba(255, 255, 255, .15),
+    0 20px 48px rgba(0, 0, 0, .23);
+  backdrop-filter: blur(24px) saturate(138%);
+  -webkit-backdrop-filter: blur(24px) saturate(138%);
+}
+
+.public-profile .public-summary-card::before {
+  content: '';
+  width: 54px;
+  height: 3px;
+  margin-bottom: 2px;
+  border-radius: 99px;
+  background: var(--profile-accent);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--profile-accent) 48%, transparent);
 }
 
 .public-profile .public-summary-card .eyebrow,
 .public-profile .public-summary-card strong,
 .public-profile .public-summary-card p,
 .public-profile .public-summary-card__chips span {
-  color: var(--public-summary-text);
+  color: inherit;
+}
+
+.public-profile .public-summary-card .eyebrow {
+  opacity: .72;
+}
+
+.public-profile .public-summary-card strong {
+  font-size: 1.2rem;
+  line-height: 1.2;
 }
 
 .public-profile .public-summary-card p {
-  opacity: .74;
+  margin: 0;
+  color: rgba(255, 255, 255, .70);
+}
+
+.public-profile .public-summary-card__chips {
+  gap: 7px;
 }
 
 .public-profile .public-summary-card__chips span {
-  border: 1px solid rgba(var(--public-summary-text-rgb), .08);
-  background: rgba(var(--public-summary-text-rgb), .09);
+  padding: 7px 9px;
+  border: 1px solid rgba(255, 255, 255, .09);
+  background: color-mix(in srgb, var(--profile-accent) 10%, rgba(255, 255, 255, .055));
+  font-size: .68rem;
 }
 
+/* Stats strip */
+.public-profile .public-stats {
+  position: relative;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 93%, transparent);
+}
+
+.public-profile .public-stats article {
+  position: relative;
+  min-height: 116px;
+  padding: 20px 22px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.public-profile .public-stats article + article::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 0;
+  width: 1px;
+  background: var(--line);
+}
+
+.public-profile .public-stats small {
+  color: var(--text-faint);
+  font-size: .66rem;
+  letter-spacing: .085em;
+}
+
+.public-profile .public-stats strong {
+  margin-top: auto;
+  font-size: clamp(1.75rem, 2.5vw, 2.35rem);
+  letter-spacing: -.04em;
+}
+
+.public-profile .public-stats span {
+  color: var(--text-soft);
+}
+
+.public-profile .public-stats article:hover {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--profile-accent) 5%, transparent);
+}
+
+/* Section rhythm */
+.public-profile .public-skill-map,
+.public-profile .public-content {
+  width: 100%;
+  margin: 58px 0 0;
+}
+
+.public-profile .public-section-heading {
+  margin-bottom: 21px;
+}
+
+.public-profile .public-section-heading .eyebrow {
+  color: var(--profile-accent);
+}
+
+.public-profile .public-section-heading h2 {
+  margin: 9px 0 7px;
+  font-size: clamp(2rem, 3.3vw, 3.3rem);
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+
+.public-profile .public-section-heading p {
+  max-width: 680px;
+  color: var(--text-soft);
+}
+
+/* Skills */
+.public-profile .public-skill-map__grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.public-profile .public-skill-map__grid article {
+  position: relative;
+  gap: 16px;
+  min-height: 112px;
+  padding: 19px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background:
+    linear-gradient(145deg,
+      color-mix(in srgb, var(--profile-accent) 4%, var(--surface)),
+      var(--surface));
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .055);
+  transition: transform var(--transition-spring), border-color var(--transition-fast), box-shadow var(--transition-spring);
+}
+
+.public-profile .public-skill-map__grid article::after {
+  content: '';
+  position: absolute;
+  right: -36px;
+  bottom: -54px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--profile-accent) 12%, transparent), transparent 66%);
+  pointer-events: none;
+}
+
+.public-profile .public-skill-map__grid article:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--profile-accent) 32%, var(--line));
+  box-shadow: 0 18px 42px color-mix(in srgb, var(--profile-accent) 7%, rgba(0, 0, 0, .08));
+}
+
+.public-profile .public-skill-map__grid strong {
+  color: var(--text);
+  font-size: .94rem;
+}
+
+.public-profile .public-skill-map__grid span {
+  color: var(--text-faint);
+}
+
+.public-profile .public-skill-map__grid i {
+  height: 6px;
+  background: color-mix(in srgb, var(--profile-accent) 9%, var(--surface-2));
+}
+
+.public-profile .public-skill-map__grid i b {
+  background: linear-gradient(90deg, var(--profile-accent), var(--profile-accent-strong));
+}
+
+/* Courses */
+.public-profile .public-course-grid {
+  gap: 16px;
+}
+
+.public-profile .public-course-grid article {
+  position: relative;
+  min-width: 0;
+  padding: 21px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background:
+    linear-gradient(160deg,
+      color-mix(in srgb, var(--profile-accent) 3%, var(--surface)),
+      color-mix(in srgb, var(--surface-2) 22%, var(--surface)));
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .055);
+  transition: transform var(--transition-spring), box-shadow var(--transition-spring), border-color var(--transition-fast);
+}
+
+.public-profile .public-course-grid article::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 20px;
+  left: 20px;
+  height: 2px;
+  border-radius: 0 0 99px 99px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--profile-accent) 70%, transparent), transparent);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.public-profile .public-course-grid article:hover,
+.public-profile .public-course-grid article:focus-within {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--profile-accent) 34%, var(--line));
+  box-shadow: 0 20px 48px color-mix(in srgb, var(--profile-accent) 7%, rgba(0, 0, 0, .10));
+}
+
+.public-profile .public-course-grid article:hover::before,
+.public-profile .public-course-grid article:focus-within::before {
+  opacity: 1;
+}
+
+.public-profile .course-symbol {
+  background: color-mix(in srgb, var(--profile-accent) 11%, transparent);
+}
+
+.public-profile .public-course-grid article h3 {
+  margin: 15px 0 7px;
+  font-size: 1.08rem;
+  line-height: 1.28;
+}
+
+.public-profile .public-course-grid article > p,
+.public-profile .public-course-description {
+  color: var(--text-soft);
+}
+
+.public-profile .public-course-description {
+  min-height: 0;
+}
+
+.public-profile .public-course-grid article .chip-row span {
+  border-color: color-mix(in srgb, var(--profile-accent) 12%, var(--line));
+}
+
+.public-profile .public-course-actions a {
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 1px solid color-mix(in srgb, var(--profile-accent) 18%, var(--line));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--profile-accent) 6%, transparent);
+}
+
+.public-profile .public-course-actions a:hover {
+  border-color: color-mix(in srgb, var(--profile-accent) 36%, var(--line));
+  background: color-mix(in srgb, var(--profile-accent) 10%, transparent);
+}
+
+.public-profile .public-course-grid--timeline {
+  border-left-color: color-mix(in srgb, var(--profile-accent) 26%, var(--line));
+}
+
+.public-profile .public-course-grid--timeline article::before {
+  opacity: 1;
+}
+
+/* Footer */
+.public-profile .public-footer {
+  min-height: 92px;
+  margin-top: 58px;
+  border-top-color: var(--line);
+}
+
+/* Tablet */
 @media (max-width: 1000px) {
+  .public-profile .public-cover {
+    min-height: 500px;
+  }
+
   .public-profile .public-cover__content {
     grid-template-columns: minmax(0, 1fr) minmax(230px, 285px);
+    gap: 18px;
     padding: 26px;
-    gap: 20px;
   }
 
   .public-profile .public-person {
-    width: 100%;
-    max-width: 590px;
+    grid-template-columns: 92px minmax(0, 1fr);
     gap: 18px;
+    padding: 18px;
   }
 
   .public-profile .public-avatar {
-    width: 96px;
-    height: 96px;
-    border-radius: 24px;
+    width: 92px;
+    height: 92px;
+    border-radius: 23px;
+  }
+
+  .public-profile .public-person h1 {
+    font-size: clamp(2rem, 5.2vw, 3.5rem);
+  }
+
+  .public-profile .public-person p {
+    font-size: .82rem;
+  }
+
+  .public-profile .public-skill-map__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* Complete mobile composition. */
+/* Mobile */
 @media (max-width: 720px) {
   .public-profile {
     min-width: 320px;
-    overflow-x: hidden;
     background:
-      radial-gradient(circle at 50% -5%, color-mix(in srgb, var(--profile-accent) 15%, transparent), transparent 32%),
+      radial-gradient(circle at 50% -4%, color-mix(in srgb, var(--profile-accent) 14%, transparent), transparent 30%),
       var(--bg);
   }
 
   .public-profile .public-shell {
     width: 100%;
-    padding: 0 0 calc(44px + env(safe-area-inset-bottom));
+    padding: 0 0 calc(42px + env(safe-area-inset-bottom));
   }
 
-  /* Compact mobile header with comfortable touch targets. */
   .public-profile .public-nav {
     min-height: 72px;
-    padding: max(10px, env(safe-area-inset-top)) 16px 10px;
-    gap: 12px;
+    padding: max(10px, env(safe-area-inset-top)) 14px 10px;
+    gap: 10px;
   }
 
   .public-profile .public-nav::after {
-    left: 16px;
-    right: 16px;
-  }
-
-  .public-profile .public-nav .brand {
-    min-width: 0;
-  }
-
-  .public-profile .public-nav .brand > span {
-    min-width: 0;
+    right: 14px;
+    left: 14px;
   }
 
   .public-profile .public-nav .brand strong {
@@ -242,148 +601,129 @@
     display: none;
   }
 
+  .public-profile .public-nav__actions {
+    gap: 6px;
+  }
+
   .public-profile .public-nav .button {
     min-height: 40px;
-    flex: 0 0 auto;
-    padding: 0 14px;
+    padding: 0 12px;
     border-radius: 13px;
-    font-size: .72rem;
+    font-size: .69rem;
     white-space: nowrap;
   }
 
-  /* The hero becomes a banner first and content card second. */
+  .public-profile .public-share-button {
+    width: 40px;
+    padding: 0 !important;
+    font-size: 0 !important;
+  }
+
+  .public-profile .public-share-button svg {
+    width: 17px;
+    height: 17px;
+  }
+
   .public-profile .public-hero-card {
-    width: calc(100% - 24px);
-    margin: 12px auto 0;
-    overflow: hidden;
-    border-radius: 27px;
-    box-shadow: 0 22px 58px rgba(0, 0, 0, .24);
+    width: calc(100% - 20px);
+    margin: 10px auto 0;
+    border-radius: 26px;
   }
 
   .public-profile .public-cover {
     min-height: 0;
-    aspect-ratio: auto;
+    padding-top: clamp(128px, 38vw, 168px);
     align-items: stretch;
-    padding-top: clamp(124px, 38vw, 170px);
-    background-position: center top;
-  }
-
-  .public-profile .public-cover[style] {
-    background-size: cover, cover;
   }
 
   .public-profile .public-cover::after {
-    background: linear-gradient(
-      180deg,
-      rgba(5, 5, 7, .04) 0%,
-      rgba(5, 5, 7, .12) 24%,
-      rgba(5, 5, 7, .58) 56%,
-      rgba(5, 5, 7, .92) 100%
-    );
+    background: linear-gradient(180deg,
+      rgba(6, 7, 10, .05) 0%,
+      rgba(6, 7, 10, .16) 25%,
+      rgba(6, 7, 10, .62) 56%,
+      rgba(6, 7, 10, .94) 100%);
   }
 
   .public-profile .public-cover__glow {
-    width: 210px;
-    height: 210px;
-    right: -80px;
-    bottom: -70px;
-    opacity: .62;
+    right: -95px;
+    bottom: -85px;
+    width: 230px;
+    height: 230px;
   }
 
   .public-profile .public-cover__content {
-    width: 100%;
     grid-template-columns: 1fr;
     align-items: stretch;
-    gap: 12px;
-    padding: 0 12px 14px;
+    gap: 10px;
+    padding: 0 10px 12px;
   }
 
-  /* Mobile identity card: avatar beside the first information block. */
   .public-profile .public-person {
     width: 100%;
     max-width: none;
-    grid-template-columns: 76px minmax(0, 1fr);
+    grid-template-columns: 74px minmax(0, 1fr);
     align-items: start;
-    gap: 14px;
-    padding: 16px;
-    border-radius: 22px;
-    background: rgba(20, 21, 25, .58);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, .14),
-      0 16px 38px rgba(0, 0, 0, .23);
-    -webkit-backdrop-filter: blur(18px) saturate(126%);
-    backdrop-filter: blur(18px) saturate(126%);
+    gap: 13px;
+    padding: 15px;
+    border-radius: 21px;
+    background: linear-gradient(145deg, rgba(25, 26, 31, .70), rgba(16, 17, 21, .54));
   }
 
   .public-profile .public-avatar {
-    width: 76px;
-    height: 76px;
+    width: 74px;
+    height: 74px;
     border-width: 1px;
-    border-radius: 20px;
-    font-size: 1.1rem;
-  }
-
-  .public-profile .public-person__info {
-    min-width: 0;
+    border-radius: 19px;
+    font-size: 1.08rem;
   }
 
   .public-profile .public-person__info .eyebrow {
     display: block;
     max-width: 100%;
     overflow: hidden;
-    font-size: .62rem;
+    font-size: .61rem;
     letter-spacing: .08em;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .public-profile .public-person h1 {
-    margin: 6px 0 5px;
-    font-size: clamp(1.72rem, 8vw, 2.25rem);
+    margin: 5px 0 5px;
+    font-size: clamp(1.7rem, 8vw, 2.28rem);
     line-height: .98;
-    overflow-wrap: anywhere;
   }
 
   .public-profile .public-person strong {
-    display: block;
-    font-size: .78rem;
-    line-height: 1.35;
+    font-size: .76rem;
   }
 
   .public-profile .public-person p {
-    margin: 11px 0 0;
-    font-size: .76rem;
-    line-height: 1.55;
+    margin-top: 10px;
+    font-size: .74rem;
+    line-height: 1.5;
   }
 
   .public-profile .public-meta {
-    gap: 7px;
-    margin-top: 12px;
+    gap: 6px;
+    margin-top: 11px;
   }
 
   .public-profile .public-meta span,
   .public-profile .public-meta a {
-    max-width: 100%;
-    min-height: 32px;
-    padding: 7px 10px;
-    font-size: .66rem;
-    overflow-wrap: anywhere;
+    min-height: 31px;
+    padding: 6px 9px;
+    font-size: .64rem;
   }
 
-  /* Summary stays visually separate and uses the inverted palette. */
   .public-profile .public-summary-card {
     max-width: none;
     justify-self: stretch;
-    gap: 9px;
-    padding: 16px;
-    border-radius: 20px;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, .16),
-      0 14px 34px rgba(0, 0, 0, .18);
+    padding: 15px;
+    border-radius: 19px;
   }
 
-  .public-profile .public-summary-card .eyebrow {
-    font-size: .62rem;
+  .public-profile .public-summary-card::before {
+    width: 42px;
   }
 
   .public-profile .public-summary-card strong {
@@ -391,100 +731,93 @@
   }
 
   .public-profile .public-summary-card p {
-    font-size: .72rem;
-    line-height: 1.45;
-  }
-
-  .public-profile .public-summary-card__chips {
-    gap: 6px;
+    font-size: .71rem;
   }
 
   .public-profile .public-summary-card__chips span {
     padding: 6px 8px;
-    font-size: .62rem;
+    font-size: .61rem;
   }
 
-  /* A 2x2 stats dashboard is denser and more useful than four tall rows. */
   .public-profile .public-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 9px;
-    padding: 12px;
+    gap: 8px;
+    padding: 10px;
   }
 
   .public-profile .public-stats article {
-    min-height: 106px;
+    min-height: 104px;
     padding: 14px;
-    border-radius: 18px;
-    gap: 6px;
+    border: 1px solid var(--line);
+    border-radius: 17px;
+    background: color-mix(in srgb, var(--surface) 93%, transparent);
+  }
+
+  .public-profile .public-stats article + article::before {
+    display: none;
   }
 
   .public-profile .public-stats small {
-    font-size: .59rem;
-    line-height: 1.35;
-    letter-spacing: .065em;
+    font-size: .58rem;
   }
 
   .public-profile .public-stats strong {
-    margin-top: auto;
-    font-size: clamp(1.24rem, 5.8vw, 1.58rem);
-    line-height: 1;
-    overflow-wrap: anywhere;
+    font-size: clamp(1.28rem, 6vw, 1.62rem);
   }
 
   .public-profile .public-stats span {
-    font-size: .66rem;
-    line-height: 1.35;
+    font-size: .65rem;
   }
 
-  /* Content section now aligns with the hero card. */
+  .public-profile .public-skill-map,
   .public-profile .public-content {
-    width: calc(100% - 24px);
-    margin: 30px auto 0;
+    width: calc(100% - 20px);
+    margin: 32px auto 0;
   }
 
   .public-profile .public-section-heading {
-    margin-bottom: 16px;
-    padding: 0 4px;
+    margin-bottom: 15px;
+    padding: 0 3px;
   }
 
   .public-profile .public-section-heading .eyebrow {
-    font-size: .63rem;
-    letter-spacing: .09em;
+    font-size: .62rem;
   }
 
   .public-profile .public-section-heading h2 {
-    margin: 8px 0 5px;
-    font-size: clamp(1.65rem, 8vw, 2.15rem);
+    margin: 7px 0 5px;
+    font-size: clamp(1.7rem, 8vw, 2.15rem);
     line-height: 1.02;
   }
 
   .public-profile .public-section-heading p {
-    font-size: .76rem;
-    line-height: 1.5;
+    font-size: .75rem;
+    line-height: 1.48;
   }
 
+  .public-profile .public-skill-map__grid,
   .public-profile .public-course-grid,
   .public-profile .public-course-grid--grid,
   .public-profile .public-course-grid--resume {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
+  }
+
+  .public-profile .public-skill-map__grid article {
+    min-height: 98px;
+    padding: 16px;
+    border-radius: 18px;
   }
 
   .public-profile .public-course-grid article {
-    min-width: 0;
-    padding: 18px;
-    border-radius: 21px;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, .10);
+    padding: 17px;
+    border-radius: 19px;
     transform: none;
   }
 
   .public-profile .public-course-grid article:hover,
   .public-profile .public-course-grid article:focus-within {
     transform: none;
-  }
-
-  .public-profile .public-course-top {
-    gap: 10px;
   }
 
   .public-profile .course-symbol {
@@ -495,89 +828,62 @@
   }
 
   .public-profile .public-course-grid article h3 {
-    margin: 14px 0 6px;
-    font-size: 1.08rem;
-    line-height: 1.24;
-    overflow-wrap: anywhere;
+    margin: 13px 0 6px;
+    font-size: 1.06rem;
   }
 
-  .public-profile .public-course-grid article > p {
-    margin-bottom: 12px;
-    font-size: .72rem;
-    line-height: 1.45;
-  }
-
+  .public-profile .public-course-grid article > p,
   .public-profile .public-course-description {
-    font-size: .75rem;
-    line-height: 1.55;
-  }
-
-  .public-profile .chip-row {
-    gap: 6px;
-  }
-
-  .public-profile .chip-row span {
-    max-width: 100%;
-    padding: 6px 8px;
-    font-size: .62rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: .73rem;
   }
 
   .public-profile .public-course-actions {
     display: grid;
     grid-template-columns: 1fr;
     gap: 8px;
-    margin-top: 14px;
+    margin-top: 13px;
   }
 
   .public-profile .public-course-actions a {
     min-height: 38px;
     justify-content: center;
-    padding: 8px 10px;
-    border: 1px solid color-mix(in srgb, var(--profile-accent) 24%, var(--line));
-    border-radius: 12px;
-    background: color-mix(in srgb, var(--profile-accent) 7%, transparent);
-    font-size: .68rem;
     text-align: center;
+  }
+
+  .public-profile .public-course-grid--timeline {
+    padding-left: 20px;
+  }
+
+  .public-profile .public-course-grid--timeline article::before {
+    left: -29px;
   }
 
   .public-profile .public-footer {
-    width: calc(100% - 32px);
-    min-height: 92px;
+    width: calc(100% - 28px);
     margin: 34px auto 0;
-    padding: 20px 0;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px 16px;
-    text-align: center;
-  }
-
-  .public-profile .public-footer span {
-    width: 100%;
-    font-size: .68rem;
+    padding: 18px 0;
   }
 }
 
 @media (max-width: 430px) {
   .public-profile .public-nav {
-    padding-inline: 12px;
+    padding-inline: 10px;
   }
 
   .public-profile .public-nav::after {
-    left: 12px;
-    right: 12px;
+    right: 10px;
+    left: 10px;
   }
 
   .public-profile .public-nav .button {
-    min-height: 38px;
-    padding-inline: 11px;
-    font-size: .67rem;
+    padding-inline: 10px;
+    font-size: .65rem;
   }
 
   .public-profile .public-hero-card,
+  .public-profile .public-skill-map,
   .public-profile .public-content {
-    width: calc(100% - 16px);
+    width: calc(100% - 14px);
   }
 
   .public-profile .public-cover {
@@ -585,58 +891,46 @@
   }
 
   .public-profile .public-cover__content {
-    padding-inline: 8px;
-    padding-bottom: 10px;
+    padding-inline: 7px;
+    padding-bottom: 9px;
   }
 
   .public-profile .public-person {
-    grid-template-columns: 66px minmax(0, 1fr);
-    gap: 12px;
-    padding: 14px;
-    border-radius: 19px;
-  }
-
-  .public-profile .public-avatar {
-    width: 66px;
-    height: 66px;
-    border-radius: 17px;
-  }
-
-  .public-profile .public-person h1 {
-    font-size: clamp(1.48rem, 8.1vw, 1.95rem);
-  }
-
-  .public-profile .public-person strong {
-    font-size: .72rem;
-  }
-
-  .public-profile .public-person p {
-    font-size: .72rem;
-  }
-
-  .public-profile .public-summary-card {
-    padding: 14px;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 11px;
+    padding: 13px;
     border-radius: 18px;
   }
 
-  .public-profile .public-stats {
-    gap: 7px;
-    padding: 8px;
-  }
-
-  .public-profile .public-stats article {
-    min-height: 100px;
-    padding: 12px;
+  .public-profile .public-avatar {
+    width: 64px;
+    height: 64px;
     border-radius: 16px;
   }
 
-  .public-profile .public-stats strong {
-    font-size: clamp(1.12rem, 5.7vw, 1.42rem);
+  .public-profile .public-person h1 {
+    font-size: clamp(1.5rem, 8vw, 1.92rem);
   }
 
-  .public-profile .public-course-grid article {
-    padding: 16px;
-    border-radius: 19px;
+  .public-profile .public-person strong,
+  .public-profile .public-person p {
+    font-size: .7rem;
+  }
+
+  .public-profile .public-summary-card {
+    padding: 13px;
+    border-radius: 17px;
+  }
+
+  .public-profile .public-stats {
+    gap: 6px;
+    padding: 7px;
+  }
+
+  .public-profile .public-stats article {
+    min-height: 98px;
+    padding: 12px;
+    border-radius: 15px;
   }
 }
 
@@ -647,8 +941,8 @@
   }
 
   .public-profile .public-nav .button {
-    padding-inline: 9px;
-    font-size: .63rem;
+    padding-inline: 8px;
+    font-size: .61rem;
   }
 
   .public-profile .public-stats {
@@ -656,16 +950,37 @@
   }
 
   .public-profile .public-stats article {
-    min-height: 88px;
+    min-height: 84px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .public-profile .public-course-grid article,
+  .public-profile .public-skill-map__grid article,
+  .public-profile .public-cover__image {
+    transition: none !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .public-profile .public-person,
+  .public-profile .public-summary-card,
+  .public-profile .public-meta span,
+  .public-profile .public-meta a,
+  .public-profile .public-nav .button--ghost {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .public-profile .public-person,
+  .public-profile .public-summary-card {
+    background: rgba(18, 19, 23, .94) !important;
   }
 }
 
 @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .public-profile .public-person {
-    background: rgba(22, 22, 28, .94);
-  }
-
+  .public-profile .public-person,
   .public-profile .public-summary-card {
-    background: var(--public-summary-background);
+    background: rgba(18, 19, 23, .94);
   }
 }
